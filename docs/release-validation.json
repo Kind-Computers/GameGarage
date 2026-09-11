@@ -12,7 +12,7 @@
     "benchmarkMemoryMiB":  4096,
     "benchmarkThreads":  4,
     "benchmarkPasses":  10,
-    "machineAndEvidence":  "Game Garage 0.1 (Beta): local self-contained Windows x64 build passed 303 checks with zero warnings/errors, the 100-file public-source audit, NSIS 3.12 compilation with warnings treated as errors, and fresh portable extraction with all 413 payload hashes verified and worker --help from a different directory. The pinned NSIS archive was also downloaded and verified from an empty cache. Hosted installer lifecycle and relocation validation is pending. Prior RAM benchmark and offscreen UI measurements are retained for unchanged scan kernels and UI layout; they do not substitute for manual Windows acceptance.",
+    "machineAndEvidence":  "Game Garage 0.1 (Beta): local and hosted self-contained Windows x64 builds passed 303 checks with zero warnings/errors and the 100-file public-source audit. GitHub-hosted Windows build 26100, x64, en-US completed actual NSIS installation, same-version reinstallation, and uninstall with exit code 0 for every phase; it verified all 413 payload hashes, a single uninstall registration, common Start menu shortcut, and preservation of unrelated install-folder and desktop files. Portable extraction and relocation into paths with spaces passed hashes and worker --help. The exact hosted downloads were retrieved locally and matched the report checksums. Pinned NSIS 3.12 cold bootstrap and user-level native preflight probes passed; no production installer or maintenance ran locally. Prior RAM benchmark and offscreen UI measurements are retained for unchanged scan kernels and UI layout. The four manual Windows acceptance checks remain pending; hosted Windows Server validation does not replace them.",
     "automatedValidation":  {
                                 "ramChecks":  26,
                                 "diagnosticChecks":  82,
@@ -42,7 +42,76 @@
                                                               "isManualWindowsScalingAcceptance":  false
                                                           },
                                 "extractedWorkerHelpFromDifferentDirectory":  true,
-                                "distributionValidation":  "Hosted builds passed all 303 checks and portable extraction/relocation. User-level NSIS probes now pass architecture, fresh Program Files destination, paths with spaces, payload and shortcut preflight, and Restart Manager inspection of the staged payload. Setup uses native path normalization for new destinations. Hosted installer lifecycle validation is pending the rerun.",
+                                "distributionValidation":  {
+                                                               "runUrl":  "https://github.com/Kind-Computers/GameGarage/actions/runs/34657494075",
+                                                               "downloadsUrl":  "https://github.com/Kind-Computers/GameGarage/actions/runs/34657494075/artifacts/10285953648",
+                                                               "downloadedArtifactsVerified":  true,
+                                                               "downloadedArtifactsDirectory":  "artifacts/ci-validation/34657494075/downloads",
+                                                               "report":  {
+                                                                              "schemaVersion":  1,
+                                                                              "version":  "0.1",
+                                                                              "sourceCommit":  "ba68e43ff45685cf3c6fd23b6065e73980fd2279",
+                                                                              "installerLifecycle":  true,
+                                                                              "portableLayout":  true,
+                                                                              "activePhase":  "uninstall",
+                                                                              "lifecycleProcesses":  [
+                                                                                                         {
+                                                                                                             "phase":  "install",
+                                                                                                             "exitCode":  0
+                                                                                                         },
+                                                                                                         {
+                                                                                                             "phase":  "reinstall",
+                                                                                                             "exitCode":  0
+                                                                                                         },
+                                                                                                         {
+                                                                                                             "phase":  "uninstall",
+                                                                                                             "exitCode":  0
+                                                                                                         }
+                                                                                                     ],
+                                                                              "failureState":  null,
+                                                                              "platform":  {
+                                                                                               "osVersion":  "10.0.26100.0",
+                                                                                               "architecture":  "x64",
+                                                                                               "installedUiCulture":  "en-US",
+                                                                                               "githubHosted":  true
+                                                                                           },
+                                                                              "artifactHashes":  {
+                                                                                                     "GameGarage-0.1-win-x64-setup.exe":  "7fcf4422ed2dd5a981e266ec307fce3f8ec0fdbe7fce79d2087aaf962a3af072",
+                                                                                                     "GameGarage-0.1-win-x64-portable.zip":  "a996e1db987dd0869e3a4c9d61eb33441b7c0a3a415534faeb51e097acc03969",
+                                                                                                     "SHA256SUMS.txt":  "bbd8fdb9f6e1ddc4508f272b9992c8d8e5da5b6934ea355d65a0dfd7c625831d",
+                                                                                                     "FILES-SHA256.txt":  "b321ffde4a83f11580b1d4ce6f79ca4225d9744c2d57ca3215214ab2a6ffd56c"
+                                                                                                 },
+                                                                              "counts":  {
+                                                                                             "payloadFiles":  413,
+                                                                                             "portableZipEntries":  414,
+                                                                                             "reinstallRegistrations":  1
+                                                                                         },
+                                                                              "checks":  {
+                                                                                             "freshMachine":  true,
+                                                                                             "artifactChecksums":  true,
+                                                                                             "portableExtractionAndHashes":  true,
+                                                                                             "portableWorkerHelp":  true,
+                                                                                             "portableRelocationAndHashes":  true,
+                                                                                             "relocatedWorkerHelp":  true,
+                                                                                             "installAndHashes":  true,
+                                                                                             "uninstallMetadata":  true,
+                                                                                             "commonStartMenuShortcut":  true,
+                                                                                             "installedWorkerHelp":  true,
+                                                                                             "sameVersionReinstallAndHashes":  true,
+                                                                                             "singleRegistrationAfterReinstall":  true,
+                                                                                             "unrelatedFilePreservedAfterReinstall":  true,
+                                                                                             "unrelatedDesktopFilePreservedAfterReinstall":  true,
+                                                                                             "uninstallRemovedOwnedPayload":  true,
+                                                                                             "uninstallRemovedRegistrationAndShortcuts":  true,
+                                                                                             "unrelatedFilePreservedAfterUninstall":  true,
+                                                                                             "unrelatedDesktopFilePreservedAfterUninstall":  true,
+                                                                                             "desktopSentinelCleanup":  true,
+                                                                                             "testDirectoryCleanup":  true
+                                                                                         },
+                                                                              "error":  null,
+                                                                              "completedAtUtc":  "2026-09-11T23:21:04.8053940Z"
+                                                                          }
+                                                           },
                                 "localDistributionArtifacts":  {
                                                                    "installerName":  "GameGarage-0.1-win-x64-setup.exe",
                                                                    "installerBytes":  44749178,
@@ -56,6 +125,6 @@
                                                                    "installerWasRunLocally":  false
                                                                }
                             },
-    "installerLifecycleSmoke":  false,
-    "portableDistributionSmoke":  false
+    "installerLifecycleSmoke":  true,
+    "portableDistributionSmoke":  true
 }
