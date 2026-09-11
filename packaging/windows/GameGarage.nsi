@@ -113,9 +113,13 @@ LangString InstallingStatus ${LANG_ENGLISH} "Installing Game Garage ${APP_VERSIO
 LangString RemovingPrevious ${LANG_ENGLISH} "Removing the previous Game Garage payload"
 LangString PreservingOtherFiles ${LANG_ENGLISH} "Unrelated files and nonempty folders are preserved."
 
-; Failures always return a nonzero exit code, including /S. /SD suppresses prompts in silent mode.
-!macro Fail Message
- SetErrorLevel 2
+; Stable failure categories, including /S: 10 platform/build, 11 language, 20 destination,
+; 21 payload path, 22 shortcut path/collision, 23 files in use, 24 usage check failure,
+; 26 uninstall registration mismatch, 30 previous removal, 31 payload/uninstaller write,
+; 32 initial metadata, 35 shortcut/completion write, 40 payload delete, 41 shortcut delete,
+; 42 registration removal. /SD suppresses prompts in silent mode.
+!macro Fail Code Message
+ SetErrorLevel ${Code}
  MessageBox MB_OK|MB_ICONSTOP "${Message}" /SD IDOK
  Abort
 !macroend
@@ -126,14 +130,14 @@ LangString PreservingOtherFiles ${LANG_ENGLISH} "Unrelated files and nonempty fo
  Push "$INSTDIR\${Relative}"
  Call CheckSafeDirectory
  ${If} $FailureText != ""
-  !insertmacro Fail "$FailureText"
+  !insertmacro Fail 21 "$FailureText"
  ${EndIf}
 !macroend
 !macro un.ValidatePayloadDirectory Relative
  Push "$INSTDIR\${Relative}"
  Call un.CheckSafeDirectory
  ${If} $FailureText != ""
-  !insertmacro Fail "$FailureText"
+  !insertmacro Fail 21 "$FailureText"
  ${EndIf}
 !macroend
 
@@ -141,14 +145,14 @@ LangString PreservingOtherFiles ${LANG_ENGLISH} "Unrelated files and nonempty fo
  Push "$INSTDIR\${Relative}"
  Call CheckSafeFile
  ${If} $FailureText != ""
-  !insertmacro Fail "$FailureText"
+  !insertmacro Fail 21 "$FailureText"
  ${EndIf}
 !macroend
 !macro un.ValidatePayloadFile Relative
  Push "$INSTDIR\${Relative}"
  Call un.CheckSafeFile
  ${If} $FailureText != ""
-  !insertmacro Fail "$FailureText"
+  !insertmacro Fail 21 "$FailureText"
  ${EndIf}
 !macroend
 
@@ -172,12 +176,15 @@ Function ${Prefix}CheckSafeDirectory
  Push $2
  Push $3
  StrCpy $FailureText ""
- ClearErrors
- GetFullPathName $0 "$0"
- ${If} ${Errors}
+ ; NSIS GetFullPathName expands existing long names and rejects an absent leaf.
+ ; The native API canonicalizes a not-yet-created installation path as well.
+ System::Call 'kernel32::GetFullPathNameW(w r0, i ${NSIS_MAX_STRLEN}, w .r1, p 0) i.r2'
+ ${If} $2 == 0
+ ${OrIf} $2 >= ${NSIS_MAX_STRLEN}
   StrCpy $FailureText "$(UnsafeLocation)"
   Goto safe_done
  ${EndIf}
+ StrCpy $0 $1
  safe_parent:
  StrLen $1 $0
  ${If} $1 < 3
@@ -288,12 +295,13 @@ Function ${Prefix}ValidateLocation
   StrCpy $FailureText "$(UnsafeLocation)"
   Return
  ${EndIf}
- ClearErrors
- GetFullPathName $INSTDIR "$INSTDIR"
- ${If} ${Errors}
+ System::Call 'kernel32::GetFullPathNameW(w "$INSTDIR", i ${NSIS_MAX_STRLEN}, w .r0, p 0) i.r1'
+ ${If} $1 == 0
+ ${OrIf} $1 >= ${NSIS_MAX_STRLEN}
   StrCpy $FailureText "$(UnsafeLocation)"
   Return
  ${EndIf}
+ StrCpy $INSTDIR $0
  StrLen $0 $INSTDIR
  ${If} $0 <= 3
   StrCpy $FailureText "$(UnsafeLocation)"
@@ -412,10 +420,11 @@ Function ${Prefix}EnsureStopped
  ${EndIf}
  ${If} $RunningResult == 1
   StrCpy $FailureText "$(CloseApplications)"
+  SetErrorLevel 23
  ${Else}
   StrCpy $FailureText "$(RunningCheckFailed)"
+  SetErrorLevel 24
  ${EndIf}
- SetErrorLevel 2
  MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION "$FailureText" /SD IDCANCEL IDRETRY running_retry
  Abort
 FunctionEnd
@@ -527,13 +536,13 @@ Section "$(RequiredFiles)" CoreFiles
  SetRegView 64
  Call ValidateDestination
  ${If} $FailureText != ""
-  !insertmacro Fail "$FailureText"
+  !insertmacro Fail 20 "$FailureText"
  ${EndIf}
  !include "${VALIDATE_FILES}"
  !insertmacro ValidatePayloadFile "uninstall.exe"
  Call ValidateShortcutDestinations
  ${If} $FailureText != ""
-  !insertmacro Fail "$FailureText"
+  !insertmacro Fail 22 "$FailureText"
  ${EndIf}
  Call EnsureStopped
  ${If} $RegisteredDir != ""
@@ -543,10 +552,10 @@ Section "$(RequiredFiles)" CoreFiles
   ClearErrors
   ExecWait '"$INSTDIR\uninstall.exe" /S /UPGRADE _?=$INSTDIR' $0
   ${If} ${Errors}
-   !insertmacro Fail "$(PreviousRemovalFailed)"
+   !insertmacro Fail 30 "$(PreviousRemovalFailed)"
   ${EndIf}
   ${If} $0 != 0
-   !insertmacro Fail "$(PreviousRemovalFailed)"
+   !insertmacro Fail 30 "$(PreviousRemovalFailed)"
   ${EndIf}
  ${EndIf}
  ; Repeat path/running checks after prior uninstall and before any replacement.
@@ -558,7 +567,7 @@ Section "$(RequiredFiles)" CoreFiles
  SetOutPath "$INSTDIR"
  WriteUninstaller "$INSTDIR\uninstall.exe"
  ${If} ${Errors}
-  !insertmacro Fail "$(InstallFailed)"
+  !insertmacro Fail 31 "$(InstallFailed)"
  ${EndIf}
  ; Register an incomplete installation first, so interrupted extraction can be
  ; retried at the same location or removed with this exact generated file list.
@@ -577,13 +586,13 @@ Section "$(RequiredFiles)" CoreFiles
  WriteRegDWORD HKLM "${UNINSTALL_KEY}" "StartMenuShortcut" 0
  WriteRegDWORD HKLM "${UNINSTALL_KEY}" "DesktopShortcut" 0
  ${If} ${Errors}
-  !insertmacro Fail "$(InstallFailed)"
+  !insertmacro Fail 32 "$(InstallFailed)"
  ${EndIf}
  SetOverwrite on
  ClearErrors
  !include "${INSTALL_FILES}"
  ${If} ${Errors}
-  !insertmacro Fail "$(InstallFailed)"
+  !insertmacro Fail 31 "$(InstallFailed)"
  ${EndIf}
  ClearErrors
  SetOutPath "$INSTDIR"
@@ -592,7 +601,7 @@ Section "$(RequiredFiles)" CoreFiles
  WriteRegDWORD HKLM "${UNINSTALL_KEY}" "StartMenuShortcut" 1
  WriteRegStr HKLM "${UNINSTALL_KEY}" "InstallState" "Complete"
  ${If} ${Errors}
-  !insertmacro Fail "$(InstallFailed)"
+  !insertmacro Fail 35 "$(InstallFailed)"
  ${EndIf}
  SetErrorLevel 0
 SectionEnd
@@ -602,7 +611,7 @@ Section /o "$(DesktopShortcut)" DesktopLink
  CreateShortcut "$DESKTOP\Game Garage.lnk" "$INSTDIR\GameGarage.exe" "" "$INSTDIR\GameGarage.exe"
  WriteRegDWORD HKLM "${UNINSTALL_KEY}" "DesktopShortcut" 1
  ${If} ${Errors}
-  !insertmacro Fail "$(InstallFailed)"
+  !insertmacro Fail 35 "$(InstallFailed)"
  ${EndIf}
 SectionEnd
 
@@ -661,7 +670,7 @@ Function un.onInit
  ${EndIf}
  Call un.ValidateLocation
  ${If} $FailureText != ""
-  SetErrorLevel 2
+  SetErrorLevel 20
   MessageBox MB_OK|MB_ICONSTOP "$FailureText" /SD IDOK
   Quit
  ${EndIf}
@@ -672,7 +681,7 @@ Function un.onInit
   GetFullPathName $RegisteredDir "$RegisteredDir"
  ${EndIf}
  ${If} $RegisteredDir != $INSTDIR
-  SetErrorLevel 2
+  SetErrorLevel 26
   MessageBox MB_OK|MB_ICONSTOP "$(RegistrationInvalid)" /SD IDOK
   Quit
  ${EndIf}
@@ -685,7 +694,7 @@ Section "Uninstall"
  !insertmacro un.ValidatePayloadFile "uninstall.exe"
  Call un.CheckShortcutPaths
  ${If} $FailureText != ""
-  !insertmacro Fail "$FailureText"
+  !insertmacro Fail 22 "$FailureText"
  ${EndIf}
  Call un.EnsureStopped
  StrCpy $DeleteFailed 0
@@ -694,14 +703,14 @@ Section "Uninstall"
  ; Empty-directory removal may fail because unrelated files remain; this is fine.
  ClearErrors
  ${If} $DeleteFailed != 0
-  !insertmacro Fail "$(UninstallFailed)"
+  !insertmacro Fail 40 "$(UninstallFailed)"
  ${EndIf}
  ${If} $OwnStartMenuShortcut == 1
   ${If} ${FileExists} "$SMPROGRAMS\Game Garage\Game Garage.lnk"
    ClearErrors
    Delete "$SMPROGRAMS\Game Garage\Game Garage.lnk"
    ${If} ${Errors}
-    !insertmacro Fail "$(UninstallFailed)"
+    !insertmacro Fail 41 "$(UninstallFailed)"
    ${EndIf}
   ${EndIf}
   RMDir "$SMPROGRAMS\Game Garage"
@@ -711,7 +720,7 @@ Section "Uninstall"
    ClearErrors
    Delete "$DESKTOP\Game Garage.lnk"
    ${If} ${Errors}
-    !insertmacro Fail "$(UninstallFailed)"
+    !insertmacro Fail 41 "$(UninstallFailed)"
    ${EndIf}
   ${EndIf}
  ${EndIf}
@@ -719,7 +728,7 @@ Section "Uninstall"
   ClearErrors
   DeleteRegKey HKLM "${UNINSTALL_KEY}"
   ${If} ${Errors}
-   !insertmacro Fail "$(UninstallFailed)"
+   !insertmacro Fail 42 "$(UninstallFailed)"
   ${EndIf}
   SetOutPath "$TEMP"
   Delete "$INSTDIR\uninstall.exe"

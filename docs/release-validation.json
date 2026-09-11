@@ -1,6 +1,6 @@
 {
     "version":  "0.1",
-    "sourceSha256":  "6cb250ac0b1f25eeb5fb705efa9d71e4774816b8acefd35cfcabffe4ee6de780",
+    "sourceSha256":  "b822f887538745c6bc54f1b232bac8f2483e5c4b410e7345d3dd34b3a4a18646",
     "windows11EnglishSmoke":  false,
     "cleanMachineWithoutDotNet":  false,
     "keyboardAndDisplayScaling":  false,
@@ -42,11 +42,11 @@
                                                               "isManualWindowsScalingAcceptance":  false
                                                           },
                                 "extractedWorkerHelpFromDifferentDirectory":  true,
-                                "distributionValidation":  "Hosted build passed all 303 checks and portable extraction/relocation checks. A user-level probe reproduced an incorrect textual architecture comparison in setup; the installer now uses the bundled numeric native architecture helper. Complete hosted installer lifecycle validation is pending the rerun.",
+                                "distributionValidation":  "Hosted builds passed all 303 checks and portable extraction/relocation. User-level NSIS probes now pass architecture, fresh Program Files destination, paths with spaces, payload and shortcut preflight, and Restart Manager inspection of the staged payload. Setup uses native path normalization for new destinations. Hosted installer lifecycle validation is pending the rerun.",
                                 "localDistributionArtifacts":  {
                                                                    "installerName":  "GameGarage-0.1-win-x64-setup.exe",
-                                                                   "installerBytes":  44750588,
-                                                                   "installerSha256":  "307f89cc24b6c6d6e436b440c39fd4657487f06b8b04a1f68dac3880ee0f5534",
+                                                                   "installerBytes":  44749178,
+                                                                   "installerSha256":  "089454f68f382fddccfe5217ed89c7c30afc8d01452ade15a84e3ffc39c06914",
                                                                    "portableName":  "GameGarage-0.1-win-x64-portable.zip",
                                                                    "portableBytes":  63393165,
                                                                    "portableSha256":  "11b23e00cc2fb17499853196a7f4bf44e60d7c0180c8f1a50fa0087b4e1b24fc",

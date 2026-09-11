@@ -228,10 +228,20 @@ function Invoke-DistributionProcess {
     } finally { $process.Dispose() }
 }
 function Invoke-SilentLifecycle {
-    param([string]$Executable)
+    param([string]$Executable, [string]$Phase)
+    $report.activePhase = $Phase
     Assert-NoReparseAncestors $Executable
     $result = Invoke-DistributionProcess $Executable '/S' $workingDirectory 120000
-    if ($result.ExitCode -ne 0) { throw "Silent installer/uninstaller failed with exit code $($result.ExitCode)." }
+    $report.lifecycleProcesses += [ordered]@{ phase = $Phase; exitCode = $result.ExitCode }
+    if ($result.ExitCode -ne 0) {
+        $report.failureState = [ordered]@{
+            installDirectoryExists = (Test-Path -LiteralPath $installRoot -PathType Container)
+            appFileExists = (Test-Path -LiteralPath (Join-Path $installRoot 'GameGarage.exe') -PathType Leaf)
+            uninstallerExists = (Test-Path -LiteralPath $uninstallerPath -PathType Leaf)
+            registrationCount = @(Get-AppRegistrations).Count
+        }
+        throw "Silent $Phase failed with exit code $($result.ExitCode)."
+    }
 }
 function Assert-WorkerHelp {
     param([string]$PayloadRoot, [string]$Phase)
@@ -292,6 +302,7 @@ $desktopSentinelCreated = $false
 $report = [ordered]@{
     schemaVersion = 1; version = $Version; sourceCommit = $env:GITHUB_SHA
     installerLifecycle = $false; portableLayout = $false
+    activePhase = 'portable'; lifecycleProcesses = @(); failureState = $null
     platform = [ordered]@{ osVersion = [Environment]::OSVersion.Version.ToString(); architecture = 'x64'
         installedUiCulture = [Globalization.CultureInfo]::InstalledUICulture.Name; githubHosted = $true }
     artifactHashes = [ordered]@{}; counts = [ordered]@{ payloadFiles = 0; portableZipEntries = 0; reinstallRegistrations = 0 }
@@ -361,7 +372,7 @@ try {
     }
     $report.portableLayout = $true
 
-    Invoke-SilentLifecycle $installerPath
+    Invoke-SilentLifecycle $installerPath 'install'
     Assert-Payload $installRoot $inventory @('uninstall.exe')
     if (-not (Test-Path -LiteralPath $uninstallerPath -PathType Leaf)) { throw 'Installed uninstaller is missing.' }
     Assert-Registration
@@ -380,7 +391,7 @@ try {
     $desktopSentinelCreated = $true
     Assert-DesktopSentinel
     [IO.File]::WriteAllText($sentinelPath, $sentinelContent, [Text.UTF8Encoding]::new($false))
-    Invoke-SilentLifecycle $installerPath
+    Invoke-SilentLifecycle $installerPath 'reinstall'
     Assert-Payload $installRoot $inventory @('uninstall.exe', $sentinelName)
     Assert-Registration
     Assert-Shortcut
@@ -392,7 +403,7 @@ try {
     $report.checks.unrelatedFilePreservedAfterReinstall = $true
     $report.checks.unrelatedDesktopFilePreservedAfterReinstall = $true
 
-    Invoke-SilentLifecycle $uninstallerPath
+    Invoke-SilentLifecycle $uninstallerPath 'uninstall'
     # NSIS may hand off to a temporary uninstaller. Wait for its observable cleanup as well.
     $uninstallWait = [Diagnostics.Stopwatch]::StartNew()
     while ((Test-Path -LiteralPath $uninstallerPath) -or (Test-Path -LiteralPath $startMenuShortcut) -or @(Get-AppRegistrations).Count -ne 0) {
