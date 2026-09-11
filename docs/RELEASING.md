@@ -71,7 +71,16 @@ and repeating affected checks. Complete the evidence note with Windows build,
 CPU, installed RAM, scan budget/thread count, raw timing location, and the
 manual checks actually performed.
 
-## Publish
+## Publish source
+
+The reviewed source can be published to `Kind-Computers/GameGarage` while the
+prebuilt preview's manual acceptance checks remain pending. Keep the pending
+validation fields unchanged, enable Issues and private vulnerability reporting,
+and push the source branch without creating the preview tag or a GitHub release.
+Ordinary Windows CI builds and tests the source; that does not complete the
+manual Windows or disposable-VM acceptance checks.
+
+## Publish the preview
 
 1. Commit the reviewed source and completed validation record. Enable GitHub
    Issues and private vulnerability reporting on `Kind-Computers/GameGarage`.

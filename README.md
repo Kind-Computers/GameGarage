@@ -5,6 +5,11 @@ watch their progress, and open the details when something needs attention.
 Game Garage takes its inspiration from the quick, practical utilities of the
 1980s. Its original working name was "Snortin' Utilities."
 
+**Source is available now. The official prebuilt preview is pending manual
+Windows checks and validation in a disposable Windows VM.** You can build and
+test the source using the instructions below. The release acceptance record
+remains pending until those checks are performed.
+
 This preview targets **Windows 11 x64 with English-language Windows**. The
 Windows interface and native memory allocation are platform-specific; small
 shared diagnostic contracts and English string resources leave room for future
@@ -26,10 +31,11 @@ does not maintain its own reference file hashes. RAM results cover the tested
 CPU/memory data path during that run. A pass is not hardware certification, and
 a mismatch does not identify a particular physical DIMM or component.
 
-## Run the preview
+## Run a packaged build
 
-1. Download the Windows x64 ZIP and `SHA256SUMS.txt` from
-   [Releases](https://github.com/Kind-Computers/GameGarage/releases).
+1. Build the Windows x64 ZIP with `scripts/build.ps1 -Package` as described below.
+   Once the preview is published, its ZIP and `SHA256SUMS.txt` will also be
+   available from [Releases](https://github.com/Kind-Computers/GameGarage/releases).
 2. Extract the entire ZIP into one folder. Keep `StabilityTest.exe` and all
    accompanying files beside `GameGarage.exe`.
 3. Open `GameGarage.exe` and accept the Windows elevation prompt. The suite
