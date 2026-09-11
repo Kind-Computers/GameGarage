@@ -109,7 +109,7 @@
     <value>The RAM check uses most available memory and approximately half the logical processors. Other applications may respond more slowly until it finishes.</value>
   </data>
   <data name="MaintenanceNotice" xml:space="preserve">
-    <value>Repairs require confirmation. Drive optimization runs only when selected.</value>
+    <value>Repairs require confirmation. Uncheck Optimize drives to skip maintenance.</value>
   </data>
   <data name="NoTools" xml:space="preserve">
     <value>Select at least one tool to run.</value>

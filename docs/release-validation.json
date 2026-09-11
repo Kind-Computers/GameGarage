@@ -1,6 +1,6 @@
 {
     "version":  "0.1.0-preview.1",
-    "sourceSha256":  "ab95648724a0dc3d67c12c8f754bfffa9e2cc282b8042163e807f737d811eca3",
+    "sourceSha256":  "0ed2452c3c11147016fd3d6287348f6f530093305e7c95924e792119d4a977f4",
     "windows11EnglishSmoke":  false,
     "cleanMachineWithoutDotNet":  false,
     "keyboardAndDisplayScaling":  false,
@@ -12,20 +12,33 @@
     "benchmarkMemoryMiB":  4096,
     "benchmarkThreads":  4,
     "benchmarkPasses":  10,
-    "machineAndEvidence":  "Windows 11 Pro x64 build 26200, en-US; AMD Ryzen 9 7950X3D, 32 logical processors, 63.11 GiB OS-visible physical memory; .NET runtime 10.0.12, SDK 10.0.401. Three bounded five-pair comparisons passed: benchmarks/windows-x64-2gib-1thread.json, windows-x64-2gib-2threads.json, and windows-x64-4gib-4threads.json. Numeric fields use the 4 GiB/four-worker case. These compare original hot loops through the documented controlled legacy adapter, not the unchanged original executable or broad default allocation. Other acceptance fields remain pending until actually verified. Final scripts/build.ps1 -Package passed: 26 RAM, 82 diagnostic/process, and 108 UI/resource/image-parser checks, zero build warnings/errors. The 90-file exact allowlist audit and 413 per-file ZIP hashes passed. The packaged worker help command ran from another working directory. UI fixtures render off-screen; they do not replace keyboard/display-scaling or disposable-system maintenance acceptance. The existing bounded RAM harness also passed with child-only DOTNET_EnableAVX2=0 (23 checks) and DOTNET_EnableHWIntrinsic=0 (20 checks). The final package was rebuilt and all 216 default checks rerun after live XML whitespace cleanup; archived baseline bytes are unchanged.",
+    "machineAndEvidence":  "Windows 11 Pro x64 build 26200, en-US; AMD Ryzen 9 7950X3D, 32 logical processors, 63.11 GiB OS-visible physical memory; .NET runtime 10.0.12, SDK 10.0.401. Three bounded five-pair comparisons passed: benchmarks/windows-x64-2gib-1thread.json, windows-x64-2gib-2threads.json, and windows-x64-4gib-4threads.json. Numeric fields use the 4 GiB/four-worker case. These compare original hot loops through the documented controlled legacy adapter, not the unchanged original executable or broad default allocation. The existing bounded RAM harness previously passed with child-only DOTNET_EnableAVX2=0 (23 checks) and DOTNET_EnableHWIntrinsic=0 (20 checks). Those measurements and fallback results remain applicable: this update changes the WPF header layout, initial optimization selection, explanatory text, related UI expectations, and documentation; RAM scan implementations are unchanged. After removing the duplicate in-window header and selecting drive optimization initially, scripts/build.ps1 -Package passed 26 RAM, 82 diagnostic/process, and 107 UI/resource/image-parser checks (215 total), with zero build warnings/errors. Optimization can be deselected and still executes only when Run selected tools is clicked; repairs remain confirmed. No actual optimization or maintenance was run during validation. The 90-file source allowlist audit, all 413 ZIP inventory hashes, and the separately extracted files passed verification. Packaged worker help ran from another working directory. A separate compact-header-default-optimization validation copy was created; the earlier 432bf80-57d155e9 and compact-header copies were left intact. UI fixtures render off-screen and do not replace manual keyboard/display-scaling, clean-machine, or disposable-system maintenance acceptance. All four manual acceptance fields remain pending. Final offscreen fixture images were reviewed at 100%, 150%, and 200% scale; the existing harness passed 107 checks. The duplicate banner is absent, the toolbar is at the top, and optimization is visibly selected. At the 720x440 minimum window size, the overview scrollbar keeps the maintenance note accessible without control clipping. This bounded visual review does not establish manual Windows display-scaling acceptance.",
     "automatedValidation":  {
                                 "ramChecks":  26,
                                 "diagnosticChecks":  82,
-                                "uiResourceAndImageParserChecks":  108,
+                                "uiResourceAndImageParserChecks":  107,
                                 "buildWarnings":  0,
                                 "buildErrors":  0,
                                 "sourceAllowlistFiles":  90,
                                 "zipEntries":  414,
                                 "zipManifestHashesVerified":  413,
                                 "packagedWorkerHelpFromDifferentDirectory":  true,
-                                "zipSha256":  "cd1d1d818536fba2e6b75cbc9a10bbdfc5d197b019cdfa6547230fa31b582bab",
+                                "zipSha256":  "10fe7cb429be730cbf96793e38611d74e99c8b9eeeb10ccee8f8b3afc73cc0d3",
                                 "automationIsNotManualWindowsAcceptance":  true,
                                 "ramChecksWithAvx2Disabled":  23,
-                                "ramChecksWithAllIntrinsicsDisabled":  20
+                                "ramChecksWithAllIntrinsicsDisabled":  20,
+                                "validationExtraction":  "artifacts/manual-validation/compact-header-default-optimization",
+                                "extractedFileHashesVerified":  413,
+                                "offscreenVisualReview":  {
+                                                              "scalesPercent":  [
+                                                                                    100,
+                                                                                    150,
+                                                                                    200
+                                                                                ],
+                                                              "minimumWindowSize":  "720x440",
+                                                              "uiChecksPassed":  107,
+                                                              "result":  "Duplicate banner removed, toolbar at top, optimization visibly selected; the overview scrollbar keeps the maintenance note accessible at minimum size with no control clipping.",
+                                                              "isManualWindowsScalingAcceptance":  false
+                                                          }
                             }
 }

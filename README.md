@@ -24,7 +24,7 @@ platforms and translations.
 | Windows image integrity | Uses DISM to inspect the Windows component store, with an optional repair. |
 | Drive integrity | Uses CHKDSK; requested repairs may need a restart. |
 | Driver signature review | Reports signature information returned by Windows DRIVERQUERY. |
-| Drive optimization | Runs Windows DEFRAG /O maintenance for supported drives; unchecked by default. |
+| Drive optimization | Runs Windows DEFRAG /O maintenance for supported drives; selected initially and can be deselected. |
 
 Windows file integrity uses SFC's protection and repair mechanisms; Game Garage
 does not maintain its own reference file hashes. RAM results cover the tested
@@ -46,8 +46,10 @@ No separately installed .NET runtime is required. The preview is unsigned.
 To check a download, compare `Get-FileHash .\GameGarage-0.1.0-preview.1-win-x64.zip
 -Algorithm SHA256` with the corresponding entry in `SHA256SUMS.txt`.
 
-Repairs require confirmation. Drive optimization is maintenance and must be
-selected explicitly. Cancelling a run prevents later tools from starting.
+Repairs require confirmation. Drive optimization is selected initially and can
+be deselected before choosing **Run selected tools**. It runs only when you
+start the selected tools; nothing runs automatically at startup. Cancelling a
+run prevents later tools from starting.
 Cancellation sends a cooperative Ctrl+Break request to the running Windows tool
 and waits for it to exit. Game Garage never force-kills the tool. Details
 distinguish cancellation, incomplete coverage,

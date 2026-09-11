@@ -43,7 +43,7 @@ internal static class Program
 
             var main = new MainWindow();
             app.MainWindow = main;
-            Check(main.OptimizeDrivesCheckBox.IsChecked == false, "maintenance is opt-in");
+            Check(main.OptimizeDrivesCheckBox.IsChecked == true, "drive optimization selected by default");
             Check(main.VerifyStabilityCheckBox.IsChecked == true, "broad RAM check retained");
             Check(main.StartTuneUpButton.IsEnabled && main.CancelTuneUpButton.Visibility == Visibility.Collapsed, "startup idle and no automatic tools");
             Check(main.WindowStyle != WindowStyle.None && !main.AllowsTransparency, "standard Windows window behavior");
@@ -58,6 +58,7 @@ internal static class Program
             Render(main, 720, 440, 1.5, null);
             Render(main, 720, 440, 2.0, null);
 
+            main.OptimizeDrivesCheckBox.IsChecked = false;
             main.ResetRowsForSession();
             Check(Equals(main.VerifyStabilityLabel.Content, UiText.Get("Queued")) && main.VerifyStabilityScanLogListView.Items.Count == 0, "new session clears stale green results and logs");
             main.FinishQueuedRows(true);

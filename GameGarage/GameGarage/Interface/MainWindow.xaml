@@ -18,17 +18,13 @@
 </Window.Resources>
 <Window.TaskbarItemInfo><TaskbarItemInfo x:Name="TaskbarProgressBar" ProgressState="None"/></Window.TaskbarItemInfo>
 <Grid Margin="16">
-<Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
-<Grid Margin="0,0,0,16"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
- <Image Source="/GameGarage;component/Resources/KindComputersIcon.ico" Width="40" Height="40" Margin="0,0,12,0"/>
- <StackPanel Grid.Column="1"><TextBlock Text="{loc:Loc AppTitle}" FontSize="24" FontWeight="SemiBold"/><TextBlock Text="{loc:Loc Company}" Foreground="#475569"/></StackPanel>
-</Grid>
-<DockPanel Grid.Row="1" Margin="0,0,0,12">
+<Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+<DockPanel Grid.Row="0" Margin="0,0,0,12">
  <Button x:Name="StartTuneUpButton" Content="{loc:Loc RunSelected}" Click="StartTuneUpButton_Click" FontWeight="SemiBold"/>
  <Button x:Name="CancelTuneUpButton" Content="{loc:Loc Cancel}" Click="CancelTuneUpButton_Click" Visibility="Collapsed"/>
  <Button Content="{loc:Loc Help}" Click="HelpHyperlink_Click" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
 </DockPanel>
-<TabControl Grid.Row="2">
+<TabControl Grid.Row="1">
  <TabItem Header="{loc:Loc Overview}"><ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel Margin="12">
  <TextBlock Text="{loc:Loc Tagline}" TextWrapping="Wrap" Margin="0,0,0,12"/>
  <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="2.1*"/><ColumnDefinition Width="1.3*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
@@ -49,7 +45,7 @@
 <Border Grid.Row="5" Grid.Column="0" Style="{StaticResource ToolCell}"><CheckBox x:Name="VerifyDeviceDriversCheckBox" Content="{loc:Loc Drivers}" IsChecked="True" VerticalAlignment="Center" /></Border>
 <Border Grid.Row="5" Grid.Column="1" Style="{StaticResource ToolCell}"><Label x:Name="VerifyDeviceDriversLabel" Content="{loc:Loc Ready}" VerticalAlignment="Center" /></Border>
 <Border Grid.Row="5" Grid.Column="2" Style="{StaticResource ToolCell}"><ProgressBar x:Name="VerifyDeviceDriversProgressBar" Minimum="0" Maximum="100" Height="12" VerticalAlignment="Center" AutomationProperties.Name="{loc:Loc Drivers}" /></Border>
-<Border Grid.Row="6" Grid.Column="0" Style="{StaticResource ToolCell}"><CheckBox x:Name="OptimizeDrivesCheckBox" Content="{loc:Loc Optimize}" IsChecked="False" VerticalAlignment="Center" /></Border>
+<Border Grid.Row="6" Grid.Column="0" Style="{StaticResource ToolCell}"><CheckBox x:Name="OptimizeDrivesCheckBox" Content="{loc:Loc Optimize}" IsChecked="True" VerticalAlignment="Center" /></Border>
 <Border Grid.Row="6" Grid.Column="1" Style="{StaticResource ToolCell}"><Label x:Name="OptimizeDrivesLabel" Content="{loc:Loc Ready}" VerticalAlignment="Center" /></Border>
 <Border Grid.Row="6" Grid.Column="2" Style="{StaticResource ToolCell}"><ProgressBar x:Name="OptimizeDrivesProgressBar" Minimum="0" Maximum="100" Height="12" VerticalAlignment="Center" AutomationProperties.Name="{loc:Loc Optimize}" /></Border>
  </Grid>
@@ -81,7 +77,7 @@
 
 </TabControl></TabItem>
 </TabControl>
-<Grid Grid.Row="3" Margin="0,12,0,0"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+<Grid Grid.Row="2" Margin="0,12,0,0"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
 <TextBlock x:Name="SessionStatus" Text="{loc:Loc SessionReady}" TextWrapping="Wrap" Margin="0,0,12,0"/>
 <TextBlock x:Name="ElapsedStatus" Grid.Column="1"/>
 </Grid>

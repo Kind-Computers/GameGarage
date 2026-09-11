@@ -39,9 +39,10 @@ it does not establish Windows 11 UI or hardware acceptance.
   a separately installed .NET runtime.
 - Check keyboard navigation, focus, 100%, 150%, and 200% display scaling,
   progress/details, cancellation, and repair confirmations. No checks should
-  start automatically; drive optimization should initially be unchecked.
+  start automatically; drive optimization should initially be selected and can
+  be deselected before choosing **Run selected tools**.
 - In a disposable Windows test environment, exercise SFC, DISM, drive checks,
-  requested repairs, and opt-in optimization. Verify scheduled reboot repairs
+  requested repairs, and optimization started through **Run selected tools**. Verify scheduled reboot repairs
   are distinguished from completed repairs. Do not run maintenance on the
   developer machine as a substitute for this check.
 - Review the final source, initial Git history, and ZIP against the allowlist.
