@@ -10,12 +10,12 @@ including overclocking adjustments. Review the selected checks and their details
 to decide what to investigate next. Comparing saved runs is planned for a future
 version.
 
-**Source is available now. The official prebuilt preview is pending manual
+**Source is available now. The official prebuilt beta is pending manual
 Windows checks and validation in a disposable Windows VM.** You can build and
 test the source using the instructions below. The release acceptance record
 remains pending until those checks are performed.
 
-This preview targets **Windows 11 x64 with English-language Windows**. The
+Game Garage 0.1 (Beta) targets **Windows 11 x64 with English-language Windows**. The
 Windows interface and native memory allocation are platform-specific; small
 shared diagnostic contracts and English string resources leave room for future
 platforms and translations.
@@ -38,14 +38,19 @@ a mismatch does not identify a particular physical DIMM or component.
 
 ## Run a packaged build
 
-1. Build the Windows x64 ZIP with `scripts/build.ps1 -Package` as described below.
-   Once the preview is published, its ZIP and `SHA256SUMS.txt` will also be
-   available from [Releases](https://github.com/Kind-Computers/GameGarage/releases).
-2. Extract the entire ZIP into one folder. Keep `StabilityTest.exe` and all
-   accompanying files beside `GameGarage.exe`.
-3. Open `GameGarage.exe` and accept the Windows elevation prompt. The suite
-   requires administrator access for its Windows system tools.
-4. Select tools and choose **Verify System**. No sweep starts automatically.
+Build both Windows x64 packages with `scripts/build.ps1 -Package` as described
+below. Once the beta is published, both downloads and `SHA256SUMS.txt` will
+also be available from [Releases](https://github.com/Kind-Computers/GameGarage/releases).
+
+| Download | How to use it |
+| --- | --- |
+| `GameGarage-0.1-win-x64-setup.exe` | Run the installer and accept elevation. It installs for all users under `Program Files\Game Garage` and adds a Start menu shortcut. Remove it through Windows Installed apps. |
+| `GameGarage-0.1-win-x64-portable.zip` | Extract the complete ZIP onto a USB drive or another folder. Open `GameGarage\GameGarage.exe`; keep every file together and the drive connected while it runs. No installation is needed. |
+
+Both packages include the same application and runtime. Opening the app requests
+administrator access for its Windows system tools. Select tools and choose
+**Verify System**; no sweep starts automatically. The tools check the Windows
+computer where Game Garage is running.
 
 **Verify System** starts the selected tools with a brief amber and coral pixel
 effect. The compact interface uses warm arcade colors.
@@ -53,9 +58,9 @@ When the run ends, the summary explains what the selected checks reported and
 suggests next steps for outstanding issues, incomplete checks, or pending repairs.
 The individual results and diagnostic details remain available.
 
-No separately installed .NET runtime is required. The preview is unsigned.
-To check a download, compare `Get-FileHash .\GameGarage-0.1.0-preview.1-win-x64.zip
--Algorithm SHA256` with the corresponding entry in `SHA256SUMS.txt`.
+No separately installed .NET runtime is required. The beta is unsigned.
+To check either download, run `Get-FileHash` on its filename with
+`-Algorithm SHA256` and compare the result with its entry in `SHA256SUMS.txt`.
 
 Repairs require confirmation. Drive optimization is selected initially and can
 be deselected before choosing **Verify System**. It runs only when you
@@ -92,7 +97,7 @@ percentage of installed memory; `/Threads` accepts a count or a percentage of
 logical processors. `/Seed` accepts a signed 32-bit integer. Omit the seed to
 choose one for the run; the worker records it with the algorithm version,
 coverage, and results. Use `--help` for current argument details and Ctrl+C to
-cancel a console run. `/Background` is not included in this preview.
+cancel a console run. `/Background` is not included in this beta.
 
 Worker exit codes: `0` passed, `1` detected issues, `2` execution error,
 `3` cancelled, `4` incomplete/inconclusive. An empty scan cannot pass.
@@ -113,9 +118,13 @@ From a Windows checkout:
 ```
 
 The first command restores, builds, and runs bounded console test harnesses.
-The second also creates the self-contained ZIP and SHA-256 checksums under
-`artifacts/`. Tests use owned buffers, controlled subprocesses, and WPF fixtures; they do not
-run broad RAM sweeps or Windows repair/maintenance commands.
+The second also downloads the checksum-pinned NSIS 3.12 compiler into
+`artifacts/toolchain` and creates the installer, self-contained portable ZIP,
+and SHA-256 checksums under `artifacts/`. It does not install the app on your
+computer. Tests use owned buffers, controlled subprocesses, and WPF fixtures;
+they do not run broad RAM sweeps or Windows repair/maintenance commands.
+Hosted Windows CI separately checks installation, reinstallation, removal,
+and the portable layout in its disposable VM.
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md), the [roadmap](ROADMAP.md), and
 [release instructions](docs/RELEASING.md). Report reproducible problems through

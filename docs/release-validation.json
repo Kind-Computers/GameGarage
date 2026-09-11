@@ -1,6 +1,6 @@
 {
-    "version":  "0.1.0-preview.1",
-    "sourceSha256":  "aefd44e91c1129a08c4bcdb8fdd1c84c75aca3274743df6577f384c63d85db33",
+    "version":  "0.1",
+    "sourceSha256":  "953fb0911c546d4550ce0658d07d368b24a2a596ddf699569a296ee83dca06c7",
     "windows11EnglishSmoke":  false,
     "cleanMachineWithoutDotNet":  false,
     "keyboardAndDisplayScaling":  false,
@@ -12,22 +12,22 @@
     "benchmarkMemoryMiB":  4096,
     "benchmarkThreads":  4,
     "benchmarkPasses":  10,
-    "machineAndEvidence":  "Windows 11 Pro x64 build 26200, en-US; AMD Ryzen 9 7950X3D, 32 logical processors, 63.11 GiB OS-visible physical memory; .NET runtime 10.0.12, SDK 10.0.401. Three bounded five-pair comparisons passed: benchmarks/windows-x64-2gib-1thread.json, windows-x64-2gib-2threads.json, and windows-x64-4gib-4threads.json. Numeric fields use the 4 GiB/four-worker case. These compare original hot loops through the documented controlled legacy adapter, not the unchanged original executable or broad default allocation. The bounded RAM harness previously passed with child-only DOTNET_EnableAVX2=0 (23 checks) and DOTNET_EnableHWIntrinsic=0 (20 checks). Those prior measurements remain applicable because this Verify System update changes frontend presentation, summary/guidance, related integration/tests, and documentation without changing RAM scan kernels. Final scripts/build.ps1 -Package passed 26 RAM, 82 diagnostic/process, and 195 UI/resource/image-parser/model/effect checks (303 total), with zero build warnings/errors. The 96-file source allowlist audit, all 413 ZIP inventory hashes, and separately extracted file hashes passed. Packaged and extracted worker help ran from another working directory. Verify System starts selected tools with warm amber/coral pixel feedback; result summaries and next steps are limited to recorded selected-check outcomes. Optimization remains initially selected and can be deselected; no scan starts automatically and repair prompts remain. No actual optimization or maintenance was run during validation. Final offscreen renders at 100%, 150%, and 200% were reviewed; the temporary visual harness passed 200 checks. Long summaries scroll within a 96px region, keeping the checklist and controls reachable at the 720x440 minimum. Fixtures verify outward animation motion and natural cleanup, disabled-effect cleanup, accessible guidance names, and scan/repair details navigation. High-contrast/reduced-motion guards and focus routing were reviewed in source. These bounded checks do not establish manual Windows scaling, screen-reader operation, clean-machine, or disposable-system maintenance acceptance. A separate verify-system validation copy was created and all earlier validation copies were left intact. All four manual acceptance fields remain pending. Comparing saved runs remains future work.",
+    "machineAndEvidence":  "Game Garage 0.1 (Beta): local self-contained Windows x64 build passed 303 checks with zero warnings/errors, the 100-file public-source audit, NSIS 3.12 compilation with warnings treated as errors, and fresh portable extraction with all 413 payload hashes verified and worker --help from a different directory. The pinned NSIS archive was also downloaded and verified from an empty cache. Hosted installer lifecycle and relocation validation is pending. Prior RAM benchmark and offscreen UI measurements are retained for unchanged scan kernels and UI layout; they do not substitute for manual Windows acceptance.",
     "automatedValidation":  {
                                 "ramChecks":  26,
                                 "diagnosticChecks":  82,
                                 "uiResourceAndImageParserChecks":  195,
                                 "buildWarnings":  0,
                                 "buildErrors":  0,
-                                "sourceAllowlistFiles":  96,
+                                "sourceAllowlistFiles":  100,
                                 "zipEntries":  414,
                                 "zipManifestHashesVerified":  413,
                                 "packagedWorkerHelpFromDifferentDirectory":  true,
-                                "zipSha256":  "671d7acdf59999da9f8a8eca70a20c04dd2d2f4bc68b00805fb81a72c992da2f",
+                                "zipSha256":  "11b23e00cc2fb17499853196a7f4bf44e60d7c0180c8f1a50fa0087b4e1b24fc",
                                 "automationIsNotManualWindowsAcceptance":  true,
                                 "ramChecksWithAvx2Disabled":  23,
                                 "ramChecksWithAllIntrinsicsDisabled":  20,
-                                "validationExtraction":  "artifacts/manual-validation/verify-system",
+                                "validationExtraction":  "artifacts/manual-validation/0.1-beta-final/GameGarage",
                                 "extractedFileHashesVerified":  413,
                                 "offscreenVisualReview":  {
                                                               "scalesPercent":  [
@@ -41,6 +41,21 @@
                                                               "result":  "Final warm arcade idle and issue-guidance views reviewed. Long guidance scrolls within its 96px region and the checklist remains reachable at minimum size. Fixtures verify outward pixel movement and natural cleanup of all 11 visuals, disabled-effect cleanup, accessible guidance names, and scan/repair details navigation. System-setting guards and focus routing were reviewed in source.",
                                                               "isManualWindowsScalingAcceptance":  false
                                                           },
-                                "extractedWorkerHelpFromDifferentDirectory":  true
-                            }
+                                "extractedWorkerHelpFromDifferentDirectory":  true,
+                                "distributionValidation":  "Pending hosted installer lifecycle and portable relocation checks.",
+                                "localDistributionArtifacts":  {
+                                                                   "installerName":  "GameGarage-0.1-win-x64-setup.exe",
+                                                                   "installerBytes":  44748662,
+                                                                   "installerSha256":  "25577a5fc1d3d4d33fe77c980873f34cb0bfd8bce3ab1cd61d71dd3f8f8550cf",
+                                                                   "portableName":  "GameGarage-0.1-win-x64-portable.zip",
+                                                                   "portableBytes":  63393165,
+                                                                   "portableSha256":  "11b23e00cc2fb17499853196a7f4bf44e60d7c0180c8f1a50fa0087b4e1b24fc",
+                                                                   "nsisVersion":  "3.12",
+                                                                   "nsisArchiveSha256":  "56581f90db321581c5381193d796fffcf2d24b2f8fed2160a6c6a3baa67f2c4f",
+                                                                   "nsisColdBootstrapVerified":  true,
+                                                                   "installerWasRunLocally":  false
+                                                               }
+                            },
+    "installerLifecycleSmoke":  false,
+    "portableDistributionSmoke":  false
 }

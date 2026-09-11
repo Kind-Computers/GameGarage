@@ -1,7 +1,7 @@
-name: Publish Windows preview
+name: Publish Windows beta
 on:
   push:
-    tags: ['v0.1.0-preview.1']
+    tags: ['v0.1']
 permissions:
   contents: read
 concurrency:
@@ -10,7 +10,7 @@ concurrency:
 jobs:
   publish:
     if: github.repository == 'Kind-Computers/GameGarage'
-    runs-on: windows-2022
+    runs-on: windows-2025
     timeout-minutes: 20
     permissions:
       contents: write
@@ -28,10 +28,21 @@ jobs:
       - name: Audit, build, test, and package
         shell: powershell
         run: ./scripts/build.ps1 -Package
+      - name: Verify installer lifecycle and portable distribution
+        shell: powershell
+        run: ./scripts/test-distributions.ps1
+      - name: Upload distribution validation report
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: distribution-validation
+          path: artifacts/distribution-validation.json
+          if-no-files-found: ignore
+          retention-days: 14
       - name: Publish prerelease and checksums
         shell: powershell
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create $env:GITHUB_REF_NAME artifacts/GameGarage-0.1.0-preview.1-win-x64.zip artifacts/SHA256SUMS.txt --verify-tag --prerelease --latest=false --title "Game Garage v0.1.0-preview.1" --notes-file docs/releases/v0.1.0-preview.1.md
+          gh release create $env:GITHUB_REF_NAME artifacts/GameGarage-0.1-win-x64-setup.exe artifacts/GameGarage-0.1-win-x64-portable.zip artifacts/SHA256SUMS.txt --verify-tag --prerelease --latest=false --title "Game Garage 0.1 (Beta)" --notes-file docs/releases/v0.1.md
           if ($LASTEXITCODE -ne 0) { throw 'GitHub prerelease publication failed.' }

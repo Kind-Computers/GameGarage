@@ -27,7 +27,7 @@ internal static class Program
             CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("fr-FR");
             Check(UiText.Get("AppTitle") == "Game Garage", "English fallback when translation absent");
             CultureInfo.CurrentUICulture = originalCulture;
-            Check(!ProductInfo.Version.Contains("2099"), "version is not an expiration date");
+            Check(ProductInfo.Version == "0.1", "app displays the 0.1 beta release version");
             Check(ProductInfo.License == "MIT License", "MIT metadata");
             Check(TextUtilities.ComputeLevenshteinDistance("Windows 11 Pro", "Windows 11 Pro") == 0, "image name exact match");
             Check(TextUtilities.ComputeLevenshteinDistance("kitten", "sitting") == 3, "image name comparison");

@@ -19,7 +19,7 @@ benchmarks/windows-x64-2gib-2threads.json
 benchmarks/windows-x64-4gib-4threads.json
 CONTRIBUTING.md
 Directory.Build.props
-docs/releases/v0.1.0-preview.1.md
+docs/releases/v0.1.md
 docs/release-validation.json
 docs/RELEASING.md
 GameGarage/GameGarage.Core/Diagnostics.cs
@@ -81,12 +81,16 @@ GameGarage/StabilityTest/VirtualAllocUtilities.cs
 global.json
 LICENSE
 NOTICES.md
+packaging/windows/GameGarage.nsi
+packaging/windows/nsis-toolchain.json
 README.md
 ROADMAP.md
 scripts/audit-publication.ps1
 scripts/build.ps1
 scripts/check-release-gate.ps1
+scripts/get-nsis.ps1
 scripts/publication-allowlist.txt
+scripts/test-distributions.ps1
 SECURITY.md
 tests/GameGarage.DiagnosticsTests/GameGarage.DiagnosticsTests.csproj
 tests/GameGarage.DiagnosticsTests/Program.cs

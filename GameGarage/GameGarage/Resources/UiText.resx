@@ -118,7 +118,7 @@
     <value>Choose a tool</value>
   </data>
   <data name="EnglishOnly" xml:space="preserve">
-    <value>This preview requires English-language Windows because it interprets Windows command output. Changing regional number or date formats is supported.</value>
+    <value>This beta requires English-language Windows because it interprets Windows command output. Changing regional number or date formats is supported.</value>
   </data>
   <data name="UnsupportedLocale" xml:space="preserve">
     <value>Windows language not supported</value>
@@ -163,7 +163,7 @@
     <value>Project, support, and feedback</value>
   </data>
   <data name="Version" xml:space="preserve">
-    <value>Version:</value>
+    <value>Beta version:</value>
   </data>
   <data name="License" xml:space="preserve">
     <value>License:</value>
@@ -253,7 +253,7 @@
     <value>Game Garage could not start: {0}</value>
   </data>
   <data name="WindowsRequired" xml:space="preserve">
-    <value>This preview supports Windows 11 x64.</value>
+    <value>This beta supports Windows 11 x64.</value>
   </data>
   <data name="ImageInfo" xml:space="preserve">
     <value>Index: {0}{4}Name: {1}{4}Description: {2}{4}Size: {3}{4}</value>

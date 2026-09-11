@@ -7,6 +7,6 @@ namespace GameGarage.Utilities;
 internal static class ProductInfo
 {
     public static string Version => typeof(ProductInfo).Assembly
-        .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "0.1.0-preview.1";
+        .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "0.1";
     public static string License => UiText.Get("MitLicense");
 }

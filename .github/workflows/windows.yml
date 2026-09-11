@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build:
-    runs-on: windows-2022
+    runs-on: windows-2025
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -24,11 +24,23 @@ jobs:
       - name: Audit, build, test, and package
         shell: powershell
         run: ./scripts/build.ps1 -Package
+      - name: Verify installer lifecycle and portable distribution
+        shell: powershell
+        run: ./scripts/test-distributions.ps1
+      - name: Upload distribution validation report
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: distribution-validation
+          path: artifacts/distribution-validation.json
+          if-no-files-found: ignore
+          retention-days: 14
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
           name: GameGarage-win-x64
           path: |
-            artifacts/GameGarage-*-win-x64.zip
+            artifacts/GameGarage-*-win-x64-setup.exe
+            artifacts/GameGarage-*-win-x64-portable.zip
             artifacts/SHA256SUMS.txt
           if-no-files-found: error
           retention-days: 14

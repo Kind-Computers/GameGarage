@@ -7,8 +7,13 @@ param(
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $repositoryRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
-if ([Environment]::OSVersion.Platform -ne [PlatformID]::Win32NT) { throw 'Build the Windows preview on Windows.' }
-$version = '0.1.0-preview.1'
+if ([Environment]::OSVersion.Platform -ne [PlatformID]::Win32NT) { throw 'Build the Windows beta on Windows.' }
+[xml]$buildMetadata = [IO.File]::ReadAllText((Join-Path $repositoryRoot 'Directory.Build.props'))
+$version = [string]$buildMetadata.Project.PropertyGroup.InformationalVersion
+$fileVersion = [string]$buildMetadata.Project.PropertyGroup.FileVersion
+if ($version -notmatch '^\d+\.\d+(\.\d+)?(-[A-Za-z0-9.-]+)?$' -or $fileVersion -notmatch '^\d+\.\d+\.\d+\.\d+$') {
+    throw 'Invalid distribution or Windows file version.'
+}
 $runtime = 'win-x64'
 $runtimeVersion = '10.0.12'
 $appProject = 'GameGarage/GameGarage/GameGarage.csproj'
@@ -79,6 +84,8 @@ try {
     $expectedSdk = (Get-Content -LiteralPath 'global.json' -Raw | ConvertFrom-Json).sdk.version
     $actualSdk = & dotnet --version
     if ($LASTEXITCODE -ne 0 -or $actualSdk -ne $expectedSdk) { throw "Install .NET SDK $expectedSdk (global.json)." }
+    $nsisCompiler = $null
+    if ($Package) { $nsisCompiler = & (Join-Path $PSScriptRoot 'get-nsis.ps1') }
     foreach ($project in @($appProject, $workerProject) + $testProjects) {
         if (-not (Test-Path -LiteralPath $project)) { throw "Required project missing: $project" }
         Invoke-DotNet (@('restore', $project, '-r', $runtime, '--nologo') + $buildProperties)
@@ -115,24 +122,70 @@ try {
     try { & $workerExe --help; if ($LASTEXITCODE -ne 0) { throw 'Packaged worker help check failed.' } } finally { Pop-Location }
     $manifestLines = @(Get-ChildItem -LiteralPath $bundlePath -Recurse -File | Sort-Object FullName | ForEach-Object { $relative = $_.FullName.Substring($bundlePath.Length + 1).Replace('\', '/'); "$((Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant())  $relative" })
     [IO.File]::WriteAllText((Join-Path $bundlePath 'FILES-SHA256.txt'), (($manifestLines -join "`n") + "`n"), (New-Object Text.UTF8Encoding($false)))
+    # Build both distributions from this single audited payload.
+    $installerWork = Reset-ArtifactDirectory 'installer-input'
+    function Escape-NsisLiteral([string]$Value) {
+        if ($Value.IndexOfAny(@([char]10, [char]13)) -ge 0) { throw 'Newline in NSIS input path.' }
+        return $Value.Replace('$', '$$').Replace('"', '$\"')
+    }
+    $payloadFiles = @(Get-ChildItem -LiteralPath $bundlePath -Recurse -File | Sort-Object FullName)
+    $payloadDirectories = @('') + @(Get-ChildItem -LiteralPath $bundlePath -Recurse -Directory | ForEach-Object {
+        $_.FullName.Substring($bundlePath.Length + 1)
+    } | Sort-Object)
+    $installLines = @()
+    $uninstallLines = @()
+    foreach ($file in $payloadFiles) {
+        $relative = $file.FullName.Substring($bundlePath.Length + 1)
+        $relativeDirectory = [IO.Path]::GetDirectoryName($relative)
+        $installLines += 'SetOutPath "$INSTDIR' + $(if ($relativeDirectory) { '\' + (Escape-NsisLiteral $relativeDirectory) } else { '' }) + '"'
+        $installLines += 'File "$' + '{PAYLOAD_DIR}\' + (Escape-NsisLiteral $relative) + '"'
+        $uninstallLines += '!insertmacro DeleteOwnedFile "' + (Escape-NsisLiteral $relative) + '"'
+    }
+    foreach ($directory in ($payloadDirectories | Where-Object { $_ } | Sort-Object Length -Descending)) {
+        $uninstallLines += 'RMDir "$INSTDIR\' + (Escape-NsisLiteral $directory) + '"'
+    }
+    $includes = @{
+        INSTALL_FILES = @('payload-install.nsh', $installLines)
+        UNINSTALL_FILES = @('payload-uninstall.nsh', $uninstallLines)
+        VALIDATE_FILES = @('payload-validate.nsh', (@($payloadDirectories | ForEach-Object { '!insertmacro ValidatePayloadDirectory "' + (Escape-NsisLiteral $_) + '"' }) + @($payloadFiles | ForEach-Object { '!insertmacro ValidatePayloadFile "' + (Escape-NsisLiteral $_.FullName.Substring($bundlePath.Length + 1)) + '"' })))
+        UNVALIDATE_FILES = @('payload-unvalidate.nsh', (@($payloadDirectories | ForEach-Object { '!insertmacro un.ValidatePayloadDirectory "' + (Escape-NsisLiteral $_) + '"' }) + @($payloadFiles | ForEach-Object { '!insertmacro un.ValidatePayloadFile "' + (Escape-NsisLiteral $_.FullName.Substring($bundlePath.Length + 1)) + '"' })))
+    }
+    $installerPath = Get-SafeArtifactPath "$bundleName-setup.exe"
+    $nsisArguments = @('/NOCONFIG', '/V3', '/WX', "/DPAYLOAD_DIR=$bundlePath", "/DOUTPUT_FILE=$installerPath",
+        "/DAPP_VERSION=$version", "/DFILE_VERSION=$fileVersion")
+    foreach ($name in ($includes.Keys | Sort-Object)) {
+        if (@($includes[$name]).Count -ne 2) { throw "Invalid NSIS include record: $name" }
+        $includePath = Join-Path $installerWork $includes[$name][0]
+        [IO.File]::WriteAllText($includePath, (($includes[$name][1] -join [char]10) + [char]10), (New-Object Text.UTF8Encoding($false)))
+        $nsisArguments += "/D$name=$includePath"
+    }
+    $nsisArguments += (Join-Path $repositoryRoot 'packaging/windows/GameGarage.nsi')
+    & $nsisCompiler @nsisArguments
+    if ($LASTEXITCODE -ne 0 -or -not (Test-Path -LiteralPath $installerPath -PathType Leaf)) { throw 'NSIS installer compilation failed.' }
+
     Add-Type -AssemblyName System.IO.Compression
     Add-Type -AssemblyName System.IO.Compression.FileSystem
-    $zipPath = Get-SafeArtifactPath "$bundleName.zip"
+    $zipPath = Get-SafeArtifactPath "$bundleName-portable.zip"
     if (Test-Path -LiteralPath $zipPath) { Remove-Item -LiteralPath $zipPath -Force }
     $zipStream = [IO.File]::Open($zipPath, [IO.FileMode]::CreateNew)
     $archive = New-Object IO.Compression.ZipArchive($zipStream, [IO.Compression.ZipArchiveMode]::Create)
     try {
         foreach ($file in Get-ChildItem -LiteralPath $bundlePath -Recurse -File | Sort-Object FullName) {
             $relative = $file.FullName.Substring($bundlePath.Length + 1).Replace('\', '/')
-            $entry = $archive.CreateEntry($relative, [IO.Compression.CompressionLevel]::Optimal)
+            $entry = $archive.CreateEntry("GameGarage/$relative", [IO.Compression.CompressionLevel]::Optimal)
             $entry.LastWriteTime = [DateTimeOffset]::new(2024, 1, 1, 0, 0, 0, [TimeSpan]::Zero)
             $inputStream = [IO.File]::OpenRead($file.FullName)
             $outputStream = $entry.Open()
             try { $inputStream.CopyTo($outputStream) } finally { $outputStream.Dispose(); $inputStream.Dispose() }
         }
     } finally { $archive.Dispose(); $zipStream.Dispose() }
-    $checksum = "$((Get-FileHash -LiteralPath $zipPath -Algorithm SHA256).Hash.ToLowerInvariant())  $bundleName.zip`n"
+    $distributionPaths = @($installerPath, $zipPath)
+    $checksum = (@($distributionPaths | ForEach-Object {
+        "$((Get-FileHash -LiteralPath $_ -Algorithm SHA256).Hash.ToLowerInvariant())  $([IO.Path]::GetFileName($_))"
+    }) -join [char]10) + [char]10
     [IO.File]::WriteAllText((Get-SafeArtifactPath 'SHA256SUMS.txt'), $checksum, (New-Object Text.UTF8Encoding($false)))
-    Write-Host "Package ready: $zipPath"
+    Write-Host "Installer ready: $installerPath"
+    Write-Host "Portable ZIP ready: $zipPath"
     Write-Host $checksum
+
 } finally { Pop-Location }

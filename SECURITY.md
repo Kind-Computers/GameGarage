@@ -6,7 +6,7 @@ If private reporting is unavailable, open an issue requesting a private contact
 without including vulnerability details. Ordinary bugs belong in Issues.
 
 Include the Game Garage version, Windows build, reproduction steps, and impact.
-Do not attach secrets or personal information. This preview runs with elevated
+Do not attach secrets or personal information. This beta runs with elevated
 permissions, so command execution and unsafe memory access receive particular
 review attention.
 
