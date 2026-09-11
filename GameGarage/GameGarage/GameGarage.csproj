@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <StartupObject>GameGarage.AppConsole</StartupObject>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Company>Kind Computers, LLC</Company>
+    <Product>Game Garage</Product>
+    <ApplicationIcon>Resources\KindComputersIcon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Resource Include="Resources\KindComputersIcon.ico" />
+    <Page Include="App.xaml" />
+    <ProjectReference Include="..\GameGarage.Core\GameGarage.Core.csproj" />
+    <ProjectReference Include="..\StabilityTest\StabilityTest.csproj" />
+  </ItemGroup>
+</Project>

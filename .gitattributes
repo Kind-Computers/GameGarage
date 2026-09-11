@@ -1,0 +1,8 @@
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.sln text eol=crlf
+*.ico binary
+*.png binary
+*.jpg binary
+# Preserve the archived baseline's original SHA-256 bytes; ignore its original whitespace in style checks.
+benchmarks/legacy/RAMTest.2024.cs -text -whitespace

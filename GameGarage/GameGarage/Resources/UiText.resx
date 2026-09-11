@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <data name="AppTitle" xml:space="preserve">
+    <value>Game Garage</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Kind Computers</value>
+  </data>
+  <data name="Tagline" xml:space="preserve">
+    <value>Practical checks and maintenance for your PC.</value>
+  </data>
+  <data name="RunSelected" xml:space="preserve">
+    <value>_Run selected tools</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>_Cancel</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>_About</value>
+  </data>
+  <data name="Overview" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="Tool" xml:space="preserve">
+    <value>Tool</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Progress" xml:space="preserve">
+    <value>Progress</value>
+  </data>
+  <data name="Ready" xml:space="preserve">
+    <value>Ready</value>
+  </data>
+  <data name="Running" xml:space="preserve">
+    <value>Checking…</value>
+  </data>
+  <data name="Repairing" xml:space="preserve">
+    <value>Repairing…</value>
+  </data>
+  <data name="Passed" xml:space="preserve">
+    <value>Passed</value>
+  </data>
+  <data name="Cancelled" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="Repaired" xml:space="preserve">
+    <value>Repaired</value>
+  </data>
+  <data name="Scheduled" xml:space="preserve">
+    <value>Repair scheduled for restart</value>
+  </data>
+  <data name="NotRepaired" xml:space="preserve">
+    <value>Problems remain</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Could not complete</value>
+  </data>
+  <data name="Inconclusive" xml:space="preserve">
+    <value>Incomplete / inconclusive</value>
+  </data>
+  <data name="Unsupported" xml:space="preserve">
+    <value>Unsupported</value>
+  </data>
+  <data name="IssuesFound" xml:space="preserve">
+    <value>Problems found</value>
+  </data>
+  <data name="Stability" xml:space="preserve">
+    <value>RAM and CPU data-path check</value>
+  </data>
+  <data name="Drives" xml:space="preserve">
+    <value>Drive file-system check</value>
+  </data>
+  <data name="WindowsImage" xml:space="preserve">
+    <value>Windows component-store check</value>
+  </data>
+  <data name="WindowsFiles" xml:space="preserve">
+    <value>Windows protected-file check</value>
+  </data>
+  <data name="Drivers" xml:space="preserve">
+    <value>Driver signature check</value>
+  </data>
+  <data name="Optimize" xml:space="preserve">
+    <value>Optimize drives (maintenance)</value>
+  </data>
+  <data name="Scan" xml:space="preserve">
+    <value>Check details</value>
+  </data>
+  <data name="Repair" xml:space="preserve">
+    <value>Repair details</value>
+  </data>
+  <data name="CopyLine" xml:space="preserve">
+    <value>Copy selected _line</value>
+  </data>
+  <data name="CopyAll" xml:space="preserve">
+    <value>Copy _all</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="RamNotice" xml:space="preserve">
+    <value>The RAM check uses most available memory and approximately half the logical processors. Other applications may respond more slowly until it finishes.</value>
+  </data>
+  <data name="MaintenanceNotice" xml:space="preserve">
+    <value>Repairs require confirmation. Drive optimization runs only when selected.</value>
+  </data>
+  <data name="NoTools" xml:space="preserve">
+    <value>Select at least one tool to run.</value>
+  </data>
+  <data name="NoToolsTitle" xml:space="preserve">
+    <value>Choose a tool</value>
+  </data>
+  <data name="EnglishOnly" xml:space="preserve">
+    <value>This preview requires English-language Windows because it interprets Windows command output. Changing regional number or date formats is supported.</value>
+  </data>
+  <data name="UnsupportedLocale" xml:space="preserve">
+    <value>Windows language not supported</value>
+  </data>
+  <data name="SessionReady" xml:space="preserve">
+    <value>Ready — choose tools, then run.</value>
+  </data>
+  <data name="SessionRunning" xml:space="preserve">
+    <value>Running selected tools</value>
+  </data>
+  <data name="SessionComplete" xml:space="preserve">
+    <value>Finished — review each tool’s result.</value>
+  </data>
+  <data name="SessionCancelling" xml:space="preserve">
+    <value>Cancellation requested — waiting for the active tool to exit.</value>
+  </data>
+  <data name="Elapsed" xml:space="preserve">
+    <value>Elapsed: {0:hh\:mm\:ss}</value>
+  </data>
+  <data name="SessionError" xml:space="preserve">
+    <value>A tool could not complete: {0}</value>
+  </data>
+  <data name="ErrorTitle" xml:space="preserve">
+    <value>Game Garage error</value>
+  </data>
+  <data name="WaitCancelling" xml:space="preserve">
+    <value>Cancelling {0}…</value>
+  </data>
+  <data name="WaitCompleting" xml:space="preserve">
+    <value>Waiting for {0} to complete…</value>
+  </data>
+  <data name="WaitNotice" xml:space="preserve">
+    <value>Some Windows maintenance operations must finish their current phase before stopping. Game Garage will not force-terminate them.</value>
+  </data>
+  <data name="AboutTitle" xml:space="preserve">
+    <value>About Game Garage</value>
+  </data>
+  <data name="AboutDescription" xml:space="preserve">
+    <value>A compact system check and maintenance utility suite.</value>
+  </data>
+  <data name="ProjectPage" xml:space="preserve">
+    <value>Project, support, and feedback</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version:</value>
+  </data>
+  <data name="License" xml:space="preserve">
+    <value>License:</value>
+  </data>
+  <data name="MitLicense" xml:space="preserve">
+    <value>MIT License</value>
+  </data>
+  <data name="Copyright" xml:space="preserve">
+    <value>Copyright © 2024–2026 Fredric Echols and Kind Computers, LLC.</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>_Close</value>
+  </data>
+  <data name="WindowsImageTitle" xml:space="preserve">
+    <value>Choose a Windows image</value>
+  </data>
+  <data name="CurrentWindows" xml:space="preserve">
+    <value>Current Windows installation</value>
+  </data>
+  <data name="ImageFile" xml:space="preserve">
+    <value>Windows image file (.wim)</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>_Browse…</value>
+  </data>
+  <data name="AvailableImages" xml:space="preserve">
+    <value>Available images</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>_Select</value>
+  </data>
+  <data name="ImageName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="ImageDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="ImageSize" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="ImageIndex" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="ImageFileFilter" xml:space="preserve">
+    <value>Windows images (*.wim)|*.wim</value>
+  </data>
+  <data name="ImageReadError" xml:space="preserve">
+    <value>Could not read this Windows image: {0}</value>
+  </data>
+  <data name="ImageLoading" xml:space="preserve">
+    <value>Reading image information…</value>
+  </data>
+  <data name="ImageNoEntries" xml:space="preserve">
+    <value>No usable image entries were found.</value>
+  </data>
+  <data name="ImagePrompt" xml:space="preserve">
+    <value>Choose an image that matches this Windows installation.</value>
+  </data>
+  <data name="UnsignedDriversTitle" xml:space="preserve">
+    <value>Drivers requiring attention</value>
+  </data>
+  <data name="UnsignedDriversNotice" xml:space="preserve">
+    <value>The Windows driver report did not identify these drivers as signed. Review them before making changes.</value>
+  </data>
+  <data name="DeviceName" xml:space="preserve">
+    <value>Device</value>
+  </data>
+  <data name="DriverName" xml:space="preserve">
+    <value>Driver</value>
+  </data>
+  <data name="DriverInf" xml:space="preserve">
+    <value>INF file</value>
+  </data>
+  <data name="DriverSigned" xml:space="preserve">
+    <value>Signed</value>
+  </data>
+  <data name="DeviceManager" xml:space="preserve">
+    <value>Open Device Manager</value>
+  </data>
+  <data name="WindowsUpdate" xml:space="preserve">
+    <value>Open Windows Update</value>
+  </data>
+  <data name="LaunchError" xml:space="preserve">
+    <value>Could not open the requested Windows page: {0}</value>
+  </data>
+  <data name="StartupError" xml:space="preserve">
+    <value>Game Garage could not start: {0}</value>
+  </data>
+  <data name="WindowsRequired" xml:space="preserve">
+    <value>This preview supports Windows 11 x64.</value>
+  </data>
+  <data name="ImageInfo" xml:space="preserve">
+    <value>Index: {0}{4}Name: {1}{4}Description: {2}{4}Size: {3}{4}</value>
+  </data>
+  <data name="RamTab" xml:space="preserve">
+    <value>RAM</value>
+  </data>
+  <data name="DrivesTab" xml:space="preserve">
+    <value>Drives</value>
+  </data>
+  <data name="ImageTab" xml:space="preserve">
+    <value>Windows image</value>
+  </data>
+  <data name="FilesTab" xml:space="preserve">
+    <value>Windows files</value>
+  </data>
+  <data name="DriversTab" xml:space="preserve">
+    <value>Drivers</value>
+  </data>
+  <data name="MaintenanceTab" xml:space="preserve">
+    <value>Maintenance</value>
+  </data>
+  <data name="SessionCancelled" xml:space="preserve">
+    <value>Stopped — review results and incomplete checks.</value>
+  </data>
+  <data name="Queued" xml:space="preserve">
+    <value>Queued</value>
+  </data>
+  <data name="NotSelected" xml:space="preserve">
+    <value>Not selected</value>
+  </data>
+  <data name="NotRun" xml:space="preserve">
+    <value>Not run</value>
+  </data>
+  <data name="ClipboardError" xml:space="preserve">
+    <value>The clipboard is unavailable. Please try copying again.</value>
+  </data>
+  <data name="ImageExitError" xml:space="preserve">
+    <value>Windows image information could not be read (DISM exit code {0}).</value>
+  </data>
+</root>

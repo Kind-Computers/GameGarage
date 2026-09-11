@@ -1,0 +1,33 @@
+{
+  "algorithmVersion": "xor-address-v1",
+  "measuredUtc": "2026-09-11T15:30:31.5434282+00:00",
+  "runtime": "10.0.12",
+  "architecture": "X64",
+  "processorCount": 32,
+  "fastestKernel": "Avx2",
+  "memoryMiB": 4096,
+  "threads": 4,
+  "passes": 10,
+  "seed": 12345,
+  "pairedRuns": 5,
+  "legacySeconds": [
+    1.6339046,
+    1.6650915,
+    1.6721351,
+    1.6707798,
+    1.66865
+  ],
+  "candidateSeconds": [
+    1.7559885,
+    1.7408754,
+    1.7450316,
+    1.741,
+    1.7552346
+  ],
+  "legacyMedianSeconds": 1.66865,
+  "candidateMedianSeconds": 1.7450316,
+  "ratio": 1.045774488358853,
+  "threshold": 1.1,
+  "passed": true,
+  "methodology": "Original 2024 hot loops, fixed-seed original per-block random path distribution. Same bounded allocation/runtime/threads/bytes/update count. Candidate additionally verifies final pattern. Both include allocation/touch/scan/free; order alternates."
+}

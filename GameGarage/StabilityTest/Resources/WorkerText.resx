@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="Title" xml:space="preserve"><value>Game Garage RAM conformance sweep</value></data>
+  <data name="Passes" xml:space="preserve"><value>Passes: {0} updates plus final verification</value></data>
+  <data name="Reserve" xml:space="preserve"><value>Reserve: {0} bytes</value></data>
+  <data name="Threads" xml:space="preserve"><value>Threads: {0}</value></data>
+  <data name="Seed" xml:space="preserve"><value>Seed: {0}</value></data>
+  <data name="Algorithm" xml:space="preserve"><value>Algorithm: {0}</value></data>
+  <data name="Patterns" xml:space="preserve"><value>Patterns: word index XOR seeded pattern, alternating with its complement.</value></data>
+  <data name="Progress" xml:space="preserve"><value>Testing memory: {0}%</value></data>
+  <data name="RunError" xml:space="preserve"><value>Unable to run the RAM scan: {0}</value></data>
+  <data name="BackgroundDeferred" xml:space="preserve"><value>/Background is deferred; use the finite foreground scan.</value></data>
+  <data name="DuplicateOrMissingOption" xml:space="preserve"><value>Duplicate option or missing value: {0}</value></data>
+  <data name="PassesInvalid" xml:space="preserve"><value>/Passes requires a positive integer.</value></data>
+  <data name="SeedInvalid" xml:space="preserve"><value>/Seed requires a signed 32-bit integer.</value></data>
+  <data name="ReserveInvalid" xml:space="preserve"><value>/ReserveGB requires nonnegative integer GiB or a percentage from 0% to 100%.</value></data>
+  <data name="ThreadsPercentInvalid" xml:space="preserve"><value>/Threads requires a percentage greater than 0% and at most 100%.</value></data>
+  <data name="ThreadsInvalid" xml:space="preserve"><value>/Threads requires a positive integer or percentage.</value></data>
+  <data name="UnknownOption" xml:space="preserve"><value>Unknown option: {0}</value></data>
+  <data name="AllocatedBytes" xml:space="preserve"><value>Allocated bytes: {0}</value></data>
+  <data name="TestedBytes" xml:space="preserve"><value>Tested bytes (final readback completed): {0}</value></data>
+  <data name="CompletedPasses" xml:space="preserve"><value>Completed update passes: {0}</value></data>
+  <data name="Elapsed" xml:space="preserve"><value>Elapsed: {0}</value></data>
+  <data name="KernelCoverage" xml:space="preserve"><value>Kernel {0}: {1} checked bytes (includes repeated passes)</value></data>
+  <data name="Mismatch" xml:space="preserve"><value>Mismatch at logical byte offset {0}: expected 0x{1:X16}, actual 0x{2:X16}, kernel {3}.</value></data>
+  <data name="ComparisonFailure" xml:space="preserve"><value> SIMD comparison failed although the captured lanes compare equal individually.</value></data>
+  <data name="Help" xml:space="preserve"><value>Game Garage RAM conformance sweep
+Usage: StabilityTest.exe [/Passes N] [/ReserveGB N|N%] [/Threads N|N%] [/Seed N]
+Defaults: 10 update passes plus final readback; reserve 1 GiB; use 50% of logical processors.
+The initial available-memory allocation is tested without growing it during the run.
+A reserve check before each pass stops the scan as Inconclusive if memory availability has fallen too far.
+Ctrl+C cancels. /Background is deferred.
+Exit codes: 0 Passed, 1 Issues, 2 Error, 3 Cancelled, 4 Inconclusive.</value></data>
+  <data name="InsufficientMemory" xml:space="preserve"><value>Not enough available memory to allocate a test block while preserving the reserve.</value></data>
+  <data name="MissingResult" xml:space="preserve"><value>Scan did not produce a result.</value></data>
+  <data name="CleanupFailed" xml:space="preserve"><value>Memory cleanup failed: {0}</value></data>
+  <data name="NoMemoryTested" xml:space="preserve"><value>No memory was tested.</value></data>
+  <data name="InvalidBlock" xml:space="preserve"><value>Each test block must have a nonzero address and a positive size divisible by eight.</value></data>
+  <data name="MemoryPressure" xml:space="preserve"><value>Stopped because available physical memory fell below the requested reserve.</value></data>
+  <data name="InvalidLimits" xml:space="preserve"><value>Invalid scan limits.</value></data>
+  <data name="MemoryQueryFailed" xml:space="preserve"><value>Unable to query Windows memory availability.</value></data>
+  <data name="AllocationFailed" xml:space="preserve"><value>Unable to allocate memory for the scan.</value></data>
+  <data name="FreeFailed" xml:space="preserve"><value>Unable to release scan memory.</value></data>
+  <data name="InvalidKernelRange" xml:space="preserve"><value>Invalid memory range or unsupported kernel.</value></data>
+</root>

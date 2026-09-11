@@ -1,0 +1,30 @@
+name: Bug report
+description: Report unexpected Game Garage behavior.
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Game Garage version
+      placeholder: v0.1.0-preview.1
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version and language
+      description: Include the Windows build, display language, and x64 CPU model when relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps and observed behavior
+      description: State the selected tools, steps to reproduce, actual result, and expected result.
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Diagnostic details
+      description: Include the RAM seed and algorithm version if relevant. Remove personal paths, device identifiers, and secrets. Security reports belong in private reporting.

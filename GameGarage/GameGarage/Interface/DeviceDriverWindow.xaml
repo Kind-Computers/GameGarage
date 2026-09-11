@@ -1,0 +1,15 @@
+<Window x:Class="GameGarage.Interface.DeviceDriverWindow"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:loc="clr-namespace:GameGarage.Resources" Title="{loc:Loc UnsignedDriversTitle}" Width="760" Height="480" MinWidth="600" MinHeight="360" WindowStartupLocation="CenterOwner">
+<DockPanel Margin="16">
+ <TextBlock DockPanel.Dock="Top" Text="{loc:Loc UnsignedDriversNotice}" TextWrapping="Wrap" Margin="0,0,0,12"/>
+ <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,12">
+  <TextBlock Margin="0,0,16,0"><Hyperlink Click="DeviceManagerLink_Click"><Run Text="{loc:Loc DeviceManager}"/></Hyperlink></TextBlock>
+  <TextBlock><Hyperlink Click="WindowsUpdateLink_Click"><Run Text="{loc:Loc WindowsUpdate}"/></Hyperlink></TextBlock>
+ </StackPanel>
+ <Button DockPanel.Dock="Bottom" Content="{loc:Loc Close}" IsCancel="True" Click="OkButton_Click" HorizontalAlignment="Right" Padding="16,6" Margin="0,12,0,0"/>
+ <ListView x:Name="UnsignedDriversListView" ItemsSource="{Binding UnsignedDrivers}">
+  <ListView.View><GridView><GridViewColumn Header="{loc:Loc DeviceName}" DisplayMemberBinding="{Binding DeviceName}" Width="320"/><GridViewColumn Header="{loc:Loc DriverInf}" DisplayMemberBinding="{Binding InfName}" Width="180"/><GridViewColumn Header="{loc:Loc DriverSigned}" DisplayMemberBinding="{Binding IsSigned}" Width="100"/></GridView></ListView.View>
+  <ListView.ContextMenu><ContextMenu><MenuItem Header="{loc:Loc CopyLine}" Click="UnsignedDriversListView_CopyItem_Click"/><MenuItem Header="{loc:Loc CopyAll}" Click="UnsignedDriversListView_CopyAll_Click"/></ContextMenu></ListView.ContextMenu>
+ </ListView>
+</DockPanel></Window>

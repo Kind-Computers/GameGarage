@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="Running" xml:space="preserve"><value>Running: {0} {1}</value></data>
+  <data name="StandardError" xml:space="preserve"><value>Standard error: {0}</value></data>
+  <data name="ProcessError" xml:space="preserve"><value>Error running {0}: {1}</value></data>
+  <data name="UnableToLaunch" xml:space="preserve"><value>Unable to launch {0}.</value></data>
+  <data name="ProcessCancelled" xml:space="preserve"><value>Cancellation requested for {0}. Exit code: {1}</value></data>
+  <data name="ProcessExit" xml:space="preserve"><value>{0} exit code: {1}</value></data>
+  <data name="ProcessTime" xml:space="preserve"><value>{0} time: {1}</value></data>
+  <data name="CheckError" xml:space="preserve"><value>The check could not complete: {0}</value></data>
+  <data name="SystemFilesTitle" xml:space="preserve"><value>Windows system files</value></data>
+  <data name="RepairSystemFiles" xml:space="preserve"><value>Windows found system file integrity problems. Repair these files now?</value></data>
+  <data name="WindowsImageTitle" xml:space="preserve"><value>Windows component store</value></data>
+  <data name="RepairWindowsImage" xml:space="preserve"><value>The Windows component store is repairable. Repair it now?</value></data>
+  <data name="SelectImageSource" xml:space="preserve"><value>Windows could not find repair source files. Select a Windows image source?</value></data>
+  <data name="StabilityTitle" xml:space="preserve"><value>RAM scan</value></data>
+  <data name="StabilityIssues" xml:space="preserve"><value>The RAM scan detected a mismatch. Review the hardware configuration before running further checks. Close Game Garage now?</value></data>
+  <data name="DriveTitle" xml:space="preserve"><value>Drive {0}</value></data>
+  <data name="RepairDrive" xml:space="preserve"><value>Windows found file system problems on drive {0}. Repair this drive now? Windows may schedule the repair for the next restart.</value></data>
+  <data name="DriveResult" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="DriverDetails" xml:space="preserve"><value>Device name: {0}
+INF name: {1}
+Signed: {2}
+Manufacturer: {3}
+</value></data>
+  <data name="Result_Scanned" xml:space="preserve"><value>Completed successfully.</value></data>
+  <data name="Result_Cancelled" xml:space="preserve"><value>Cancelled; the check did not complete.</value></data>
+  <data name="Result_Repaired" xml:space="preserve"><value>Repairs completed successfully.</value></data>
+  <data name="Result_Repair_Scheduled_On_Reboot" xml:space="preserve"><value>Windows scheduled changes for the next restart.</value></data>
+  <data name="Result_Not_Repaired" xml:space="preserve"><value>Problems remain; repairs did not complete.</value></data>
+  <data name="Result_Error" xml:space="preserve"><value>The check failed to complete. See the log.</value></data>
+  <data name="Result_Inconclusive" xml:space="preserve"><value>The output did not establish a complete result. See the log.</value></data>
+  <data name="Result_Unsupported" xml:space="preserve"><value>This check is not supported for the selected target.</value></data>
+  <data name="Result_IssuesFound" xml:space="preserve"><value>Issues were found. See the log.</value></data>
+</root>

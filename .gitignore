@@ -1,0 +1,27 @@
+# Local editors and generated .NET output
+.vs/
+.vscode/
+[Bb]in/
+[Oo]bj/
+artifacts/
+TestResults/
+BenchmarkDotNet.Artifacts/
+*.user
+*.suo
+*.rsuser
+*.userosscache
+*.sln.docstates
+*.log
+*.binlog
+*.pdb
+*.nupkg
+*.snupkg
+*.tmp
+*.zip
+# Signing credentials and local secrets
+.env
+.env.*
+*.pfx
+*.p12
+*.key
+*.pem

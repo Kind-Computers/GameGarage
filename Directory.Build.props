@@ -1,0 +1,21 @@
+<Project>
+  <PropertyGroup>
+    <Version>0.1.0-preview.1</Version>
+    <InformationalVersion>0.1.0-preview.1</InformationalVersion>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>0.1.0.0</FileVersion>
+    <Company>Kind Computers, LLC</Company>
+    <Authors>Fredric Echols; Kind Computers, LLC</Authors>
+    <Copyright>Copyright (c) 2024-2026 Fredric Echols and Kind Computers, LLC</Copyright>
+    <Product>Game Garage</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/Kind-Computers/GameGarage</RepositoryUrl>
+    <RuntimeFrameworkVersion>10.0.12</RuntimeFrameworkVersion>
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <PublishAot>false</PublishAot>
+    <PublishTrimmed>false</PublishTrimmed>
+    <PublishSingleFile>false</PublishSingleFile>
+  </PropertyGroup>
+</Project>

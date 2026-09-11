@@ -1,0 +1,17 @@
+name: Feature request
+description: Suggest a focused improvement.
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: What task should become easier?
+      description: Describe who needs this and the current problem.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Suggested behavior
+      description: Include alternatives and platform or language requirements if relevant.
+    validations:
+      required: true

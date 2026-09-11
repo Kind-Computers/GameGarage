@@ -1,0 +1,31 @@
+{
+    "version":  "0.1.0-preview.1",
+    "sourceSha256":  "ab95648724a0dc3d67c12c8f754bfffa9e2cc282b8042163e807f737d811eca3",
+    "windows11EnglishSmoke":  false,
+    "cleanMachineWithoutDotNet":  false,
+    "keyboardAndDisplayScaling":  false,
+    "repairConfirmationsAndDisposableMaintenance":  false,
+    "packageAndSourceAudit":  true,
+    "baselineMedianMilliseconds":  1668.65000,
+    "candidateMedianMilliseconds":  1745.0316000,
+    "pairedBenchmarkRuns":  5,
+    "benchmarkMemoryMiB":  4096,
+    "benchmarkThreads":  4,
+    "benchmarkPasses":  10,
+    "machineAndEvidence":  "Windows 11 Pro x64 build 26200, en-US; AMD Ryzen 9 7950X3D, 32 logical processors, 63.11 GiB OS-visible physical memory; .NET runtime 10.0.12, SDK 10.0.401. Three bounded five-pair comparisons passed: benchmarks/windows-x64-2gib-1thread.json, windows-x64-2gib-2threads.json, and windows-x64-4gib-4threads.json. Numeric fields use the 4 GiB/four-worker case. These compare original hot loops through the documented controlled legacy adapter, not the unchanged original executable or broad default allocation. Other acceptance fields remain pending until actually verified. Final scripts/build.ps1 -Package passed: 26 RAM, 82 diagnostic/process, and 108 UI/resource/image-parser checks, zero build warnings/errors. The 90-file exact allowlist audit and 413 per-file ZIP hashes passed. The packaged worker help command ran from another working directory. UI fixtures render off-screen; they do not replace keyboard/display-scaling or disposable-system maintenance acceptance. The existing bounded RAM harness also passed with child-only DOTNET_EnableAVX2=0 (23 checks) and DOTNET_EnableHWIntrinsic=0 (20 checks). The final package was rebuilt and all 216 default checks rerun after live XML whitespace cleanup; archived baseline bytes are unchanged.",
+    "automatedValidation":  {
+                                "ramChecks":  26,
+                                "diagnosticChecks":  82,
+                                "uiResourceAndImageParserChecks":  108,
+                                "buildWarnings":  0,
+                                "buildErrors":  0,
+                                "sourceAllowlistFiles":  90,
+                                "zipEntries":  414,
+                                "zipManifestHashesVerified":  413,
+                                "packagedWorkerHelpFromDifferentDirectory":  true,
+                                "zipSha256":  "cd1d1d818536fba2e6b75cbc9a10bbdfc5d197b019cdfa6547230fa31b582bab",
+                                "automationIsNotManualWindowsAcceptance":  true,
+                                "ramChecksWithAvx2Disabled":  23,
+                                "ramChecksWithAllIntrinsicsDisabled":  20
+                            }
+}
