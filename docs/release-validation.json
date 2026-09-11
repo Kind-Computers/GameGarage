@@ -1,6 +1,6 @@
 {
     "version":  "0.1",
-    "sourceSha256":  "953fb0911c546d4550ce0658d07d368b24a2a596ddf699569a296ee83dca06c7",
+    "sourceSha256":  "0cdd21d128ae662528989bb439286b715a035137397919de45b9395186efbffb",
     "windows11EnglishSmoke":  false,
     "cleanMachineWithoutDotNet":  false,
     "keyboardAndDisplayScaling":  false,
@@ -42,7 +42,7 @@
                                                               "isManualWindowsScalingAcceptance":  false
                                                           },
                                 "extractedWorkerHelpFromDifferentDirectory":  true,
-                                "distributionValidation":  "Pending hosted installer lifecycle and portable relocation checks.",
+                                "distributionValidation":  "First hosted run passed the 303-check build and packaging, then stopped before installation because Windows PowerShell returned a missing worker exit code. The process harness now uses System.Diagnostics.Process; complete hosted lifecycle validation is pending the rerun.",
                                 "localDistributionArtifacts":  {
                                                                    "installerName":  "GameGarage-0.1-win-x64-setup.exe",
                                                                    "installerBytes":  44748662,

@@ -198,15 +198,40 @@ function Assert-Shortcut {
         $null = [Runtime.InteropServices.Marshal]::FinalReleaseComObject($shell)
     }
 }
+function Invoke-DistributionProcess {
+    param([string]$Executable, [string]$Arguments, [string]$WorkingDirectory,
+        [int]$TimeoutMilliseconds, [switch]$CaptureOutput)
+    if (-not (Test-Path -LiteralPath $WorkingDirectory -PathType Container)) { throw 'Process working directory does not exist.' }
+    $startInfo = [Diagnostics.ProcessStartInfo]::new()
+    $startInfo.FileName = $Executable
+    $startInfo.Arguments = $Arguments
+    $startInfo.WorkingDirectory = $WorkingDirectory
+    $startInfo.UseShellExecute = $false
+    $startInfo.CreateNoWindow = $true
+    $startInfo.WindowStyle = [Diagnostics.ProcessWindowStyle]::Hidden
+    $startInfo.RedirectStandardOutput = [bool]$CaptureOutput
+    $startInfo.RedirectStandardError = [bool]$CaptureOutput
+    $process = [Diagnostics.Process]::new()
+    $process.StartInfo = $startInfo
+    try {
+        if (-not $process.Start()) { throw 'Distribution process could not start.' }
+        if ($CaptureOutput) {
+            $stdoutTask = $process.StandardOutput.ReadToEndAsync()
+            $stderrTask = $process.StandardError.ReadToEndAsync()
+        }
+        if (-not $process.WaitForExit($TimeoutMilliseconds)) { throw "Distribution process did not exit within $TimeoutMilliseconds milliseconds." }
+        $process.WaitForExit()
+        $exitCode = $process.ExitCode
+        $stdoutText = if ($CaptureOutput) { $stdoutTask.GetAwaiter().GetResult() } else { '' }
+        $stderrText = if ($CaptureOutput) { $stderrTask.GetAwaiter().GetResult() } else { '' }
+        return [pscustomobject]@{ ExitCode = $exitCode; StandardOutput = $stdoutText; StandardError = $stderrText }
+    } finally { $process.Dispose() }
+}
 function Invoke-SilentLifecycle {
     param([string]$Executable)
     Assert-NoReparseAncestors $Executable
-    $process = Start-Process -FilePath $Executable -ArgumentList '/S' -WorkingDirectory $workingDirectory -WindowStyle Hidden -PassThru
-    try {
-        if (-not $process.WaitForExit(120000)) { throw 'Silent installer/uninstaller did not exit within two minutes.' }
-        $process.Refresh()
-        if ($process.ExitCode -ne 0) { throw "Silent installer/uninstaller failed with exit code $($process.ExitCode)." }
-    } finally { $process.Dispose() }
+    $result = Invoke-DistributionProcess $Executable '/S' $workingDirectory 120000
+    if ($result.ExitCode -ne 0) { throw "Silent installer/uninstaller failed with exit code $($result.ExitCode)." }
 }
 function Assert-WorkerHelp {
     param([string]$PayloadRoot, [string]$Phase)
@@ -214,15 +239,12 @@ function Assert-WorkerHelp {
     $stdout = Get-ChildPath $testRoot ($Phase + '-help.stdout.txt')
     $stderr = Get-ChildPath $testRoot ($Phase + '-help.stderr.txt')
     # Exactly --help returns before the worker creates an allocator or scan options.
-    $process = Start-Process -FilePath $worker -ArgumentList '--help' -WorkingDirectory $workingDirectory -WindowStyle Hidden -PassThru -RedirectStandardOutput $stdout -RedirectStandardError $stderr
-    try {
-        if (-not $process.WaitForExit(30000)) { throw 'Packaged worker help did not exit within thirty seconds.' }
-        $process.Refresh()
-        if ($process.ExitCode -ne 0) { throw "Packaged worker help failed with exit code $($process.ExitCode)." }
-    } finally { $process.Dispose() }
-    $help = [IO.File]::ReadAllText($stdout)
-    if ($help -notmatch 'Usage: StabilityTest\.exe' -or
-        -not [string]::IsNullOrWhiteSpace([IO.File]::ReadAllText($stderr))) { throw 'Packaged worker did not produce clean help output.' }
+    $result = Invoke-DistributionProcess $worker '--help' $workingDirectory 30000 -CaptureOutput
+    [IO.File]::WriteAllText($stdout, $result.StandardOutput, [Text.UTF8Encoding]::new($false))
+    [IO.File]::WriteAllText($stderr, $result.StandardError, [Text.UTF8Encoding]::new($false))
+    if ($result.ExitCode -ne 0) { throw "Packaged worker help failed with exit code $($result.ExitCode)." }
+    if ($result.StandardOutput -notmatch 'Usage: StabilityTest\.exe' -or
+        -not [string]::IsNullOrWhiteSpace($result.StandardError)) { throw 'Packaged worker did not produce clean help output.' }
 }
 function Expand-PortablePackage {
     param([string]$ZipPath, [string]$Destination)
