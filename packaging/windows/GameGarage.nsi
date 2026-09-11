@@ -488,17 +488,16 @@ Function .onInit
  StrCpy $OwnDesktopShortcut 0
  SetShellVarContext all
  SetRegView 64
- ; Native architecture, rather than the 32-bit NSIS process architecture.
- System::Call 'kernel32::IsWow64Process2(p -1, *i .r0, *i .r1) i.r2'
- ${If} $2 == 0
- ${OrIf} $1 != 0x8664
-  SetErrorLevel 2
+ ; The bundled helper compares the native machine architecture numerically.
+ ; Startup exits: 10 = unsupported architecture/build; 11 = unsupported language.
+ ${IfNot} ${IsNativeAMD64}
+  SetErrorLevel 10
   MessageBox MB_OK|MB_ICONSTOP "$(PlatformRequired)" /SD IDOK
   Quit
  ${EndIf}
  ReadRegStr $0 HKLM "Software\Microsoft\Windows NT\CurrentVersion" "CurrentBuildNumber"
  ${If} $0 < 22000
-  SetErrorLevel 2
+  SetErrorLevel 10
   MessageBox MB_OK|MB_ICONSTOP "$(PlatformRequired)" /SD IDOK
   Quit
  ${EndIf}
@@ -506,7 +505,7 @@ Function .onInit
  System::Call 'kernel32::GetSystemDefaultUILanguage() i.r0'
  IntOp $0 $0 & 0x3ff
  ${If} $0 != 9
-  SetErrorLevel 2
+  SetErrorLevel 11
   MessageBox MB_OK|MB_ICONSTOP "$(EnglishRequired)" /SD IDOK
   Quit
  ${EndIf}
