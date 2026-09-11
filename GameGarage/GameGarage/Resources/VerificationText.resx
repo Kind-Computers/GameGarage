@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <data name="IssuesHeadline" xml:space="preserve"><value>Problems found</value></data>
+  <data name="MemoryIssuesDetail" xml:space="preserve"><value>The memory check detected a data mismatch. Save the details and review your CPU and memory settings before running more checks.</value></data>
+  <data name="DrivesIssuesDetail" xml:space="preserve"><value>The drive check reported file-system problems. Back up important files and review the drive details before deciding on a repair.</value></data>
+  <data name="WindowsImageIssuesDetail" xml:space="preserve"><value>The Windows component-store check reported problems. Review its details to decide on the next Windows repair step, then verify again.</value></data>
+  <data name="WindowsFilesIssuesDetail" xml:space="preserve"><value>The Windows protected-file check reported problems. Review its details and any repair outcome before deciding whether to retry a repair.</value></data>
+  <data name="DriversIssuesDetail" xml:space="preserve"><value>Review the listed drivers and confirm their source before deciding whether to update them.</value></data>
+  <data name="OptimizationIssuesDetail" xml:space="preserve"><value>Drive maintenance reported a problem. Review its details before trying maintenance again.</value></data>
+  <data name="UnknownIssuesDetail" xml:space="preserve"><value>A selected check reported problems. Review the available details before running further checks.</value></data>
+  <data name="AdditionalFindings" xml:space="preserve"><value>Other checks also reported problems. Review their details as well.</value></data>
+  <data name="UnfinishedDetail" xml:space="preserve"><value>Some selected checks did not complete. Run the unfinished checks again after reviewing the reported results.</value></data>
+  <data name="ScheduledHeadline" xml:space="preserve"><value>Restart required to finish repairs</value></data>
+  <data name="ScheduledDetail" xml:space="preserve"><value>Windows scheduled changes for the next restart. Restart when you are ready, then run the affected check again.</value></data>
+  <data name="IncompleteHeadline" xml:space="preserve"><value>Verification incomplete</value></data>
+  <data name="NoChecksHeadline" xml:space="preserve"><value>No checks run</value></data>
+  <data name="NoChecksDetail" xml:space="preserve"><value>No checks were selected, so there is no verification result.</value></data>
+  <data name="ErrorDetail" xml:space="preserve"><value>{0} could not complete. Review its details before trying again.</value></data>
+  <data name="UnsupportedDetail" xml:space="preserve"><value>{0} is not supported for this target. Review its details to see what could not be checked.</value></data>
+  <data name="CancelledDetail" xml:space="preserve"><value>{0} was stopped. Review the available details and run the unfinished checks again when ready.</value></data>
+  <data name="InconclusiveDetail" xml:space="preserve"><value>{0} did not establish a complete result. Review its details before running it again.</value></data>
+  <data name="SessionFailedDetail" xml:space="preserve"><value>Verification could not finish. Review the recorded results before starting another run.</value></data>
+  <data name="CancelledSessionDetail" xml:space="preserve"><value>Verification was stopped. Review the recorded results before starting another run.</value></data>
+  <data name="MissingResultsDetail" xml:space="preserve"><value>The results do not cover every selected check. Review the available results and run the unfinished checks again.</value></data>
+  <data name="SomeRepairsDetail" xml:space="preserve"><value>Some repairs completed. Run the affected checks again to verify their current state.</value></data>
+  <data name="RepairedHeadline" xml:space="preserve"><value>Repairs completed — verify again</value></data>
+  <data name="RepairedDetail" xml:space="preserve"><value>Windows reported completed repairs. Run the affected checks again to verify their current state.</value></data>
+  <data name="MaintenanceHeadline" xml:space="preserve"><value>Selected maintenance completed</value></data>
+  <data name="MaintenanceDetail" xml:space="preserve"><value>The selected drive maintenance completed. This result does not assess system health or measure gaming performance.</value></data>
+  <data name="PassedHeadline" xml:space="preserve"><value>Selected checks passed</value></data>
+  <data name="PassedDetail" xml:space="preserve"><value>The selected checks reported no problems during this run. Their results cover only what was tested.</value></data>
+  <data name="PassedWithMaintenanceDetail" xml:space="preserve"><value>The selected diagnostic checks reported no problems during this run. Selected drive maintenance also completed. These results cover only what was tested.</value></data>
+  <data name="MemoryArea" xml:space="preserve"><value>The memory check</value></data>
+  <data name="DrivesArea" xml:space="preserve"><value>The drive check</value></data>
+  <data name="WindowsImageArea" xml:space="preserve"><value>The Windows component-store check</value></data>
+  <data name="WindowsFilesArea" xml:space="preserve"><value>The Windows protected-file check</value></data>
+  <data name="DriversArea" xml:space="preserve"><value>The driver signature check</value></data>
+  <data name="OptimizationArea" xml:space="preserve"><value>Drive maintenance</value></data>
+  <data name="UnknownArea" xml:space="preserve"><value>A selected check</value></data>
+  <data name="CombinedDetail" xml:space="preserve"><value>{0}
+
+{1}</value></data>
+</root>

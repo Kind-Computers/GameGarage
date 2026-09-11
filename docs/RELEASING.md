@@ -38,11 +38,13 @@ it does not establish Windows 11 UI or hardware acceptance.
   directory and verify it finds its worker. Repeat on a clean machine without
   a separately installed .NET runtime.
 - Check keyboard navigation, focus, 100%, 150%, and 200% display scaling,
-  progress/details, cancellation, and repair confirmations. No checks should
+  the **Verify System** button feedback, progress/details, cancellation, and
+  repair confirmations. Confirm the summary and suggested next steps reflect
+  the actual results, including incomplete checks and pending repairs. No checks should
   start automatically; drive optimization should initially be selected and can
-  be deselected before choosing **Run selected tools**.
+  be deselected before choosing **Verify System**.
 - In a disposable Windows test environment, exercise SFC, DISM, drive checks,
-  requested repairs, and optimization started through **Run selected tools**. Verify scheduled reboot repairs
+  requested repairs, and optimization started through **Verify System**. Verify scheduled reboot repairs
   are distinguished from completed repairs. Do not run maintenance on the
   developer machine as a substitute for this check.
 - Review the final source, initial Git history, and ZIP against the allowlist.

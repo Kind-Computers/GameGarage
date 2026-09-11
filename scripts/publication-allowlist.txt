@@ -35,8 +35,11 @@ GameGarage/GameGarage/Interface/AboutWindow.xaml
 GameGarage/GameGarage/Interface/AboutWindow.xaml.cs
 GameGarage/GameGarage/Interface/DeviceDriverWindow.xaml
 GameGarage/GameGarage/Interface/DeviceDriverWindow.xaml.cs
+GameGarage/GameGarage/Interface/MainWindow.Presentation.cs
 GameGarage/GameGarage/Interface/MainWindow.xaml
 GameGarage/GameGarage/Interface/MainWindow.xaml.cs
+GameGarage/GameGarage/Interface/VerificationEffects.cs
+GameGarage/GameGarage/Interface/VerificationSummary.cs
 GameGarage/GameGarage/Interface/VerifierTask.cs
 GameGarage/GameGarage/Interface/WindowsImageSelection.xaml
 GameGarage/GameGarage/Interface/WindowsImageSelection.xaml.cs
@@ -45,6 +48,8 @@ GameGarage/GameGarage/Properties/AssemblyInfo.cs
 GameGarage/GameGarage/Resources/KindComputersIcon.ico
 GameGarage/GameGarage/Resources/UiText.cs
 GameGarage/GameGarage/Resources/UiText.resx
+GameGarage/GameGarage/Resources/VerificationText.cs
+GameGarage/GameGarage/Resources/VerificationText.resx
 GameGarage/GameGarage/Tools/DeviceDriverVerifier.cs
 GameGarage/GameGarage/Tools/Diagnostics.resx
 GameGarage/GameGarage/Tools/DiagnosticsText.cs
@@ -89,3 +94,4 @@ tests/GameGarage.RamTests/GameGarage.RamTests.csproj
 tests/GameGarage.RamTests/Program.cs
 tests/GameGarage.UiTests/GameGarage.UiTests.csproj
 tests/GameGarage.UiTests/Program.cs
+tests/GameGarage.UiTests/VerificationSummaryChecks.cs

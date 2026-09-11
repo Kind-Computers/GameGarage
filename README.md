@@ -5,6 +5,11 @@ watch their progress, and open the details when something needs attention.
 Game Garage takes its inspiration from the quick, practical utilities of the
 1980s. Its original working name was "Snortin' Utilities."
 
+Use **Verify System** as a first check after changing a PC configuration,
+including overclocking adjustments. Review the selected checks and their details
+to decide what to investigate next. Comparing saved runs is planned for a future
+version.
+
 **Source is available now. The official prebuilt preview is pending manual
 Windows checks and validation in a disposable Windows VM.** You can build and
 test the source using the instructions below. The release acceptance record
@@ -40,14 +45,20 @@ a mismatch does not identify a particular physical DIMM or component.
    accompanying files beside `GameGarage.exe`.
 3. Open `GameGarage.exe` and accept the Windows elevation prompt. The suite
    requires administrator access for its Windows system tools.
-4. Select tools and choose **Run selected tools**. No sweep starts automatically.
+4. Select tools and choose **Verify System**. No sweep starts automatically.
+
+**Verify System** starts the selected tools with a brief amber and coral pixel
+effect. The compact interface uses warm arcade colors.
+When the run ends, the summary explains what the selected checks reported and
+suggests next steps for outstanding issues, incomplete checks, or pending repairs.
+The individual results and diagnostic details remain available.
 
 No separately installed .NET runtime is required. The preview is unsigned.
 To check a download, compare `Get-FileHash .\GameGarage-0.1.0-preview.1-win-x64.zip
 -Algorithm SHA256` with the corresponding entry in `SHA256SUMS.txt`.
 
 Repairs require confirmation. Drive optimization is selected initially and can
-be deselected before choosing **Run selected tools**. It runs only when you
+be deselected before choosing **Verify System**. It runs only when you
 start the selected tools; nothing runs automatically at startup. Cancelling a
 run prevents later tools from starting.
 Cancellation sends a cooperative Ctrl+Break request to the running Windows tool

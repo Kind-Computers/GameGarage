@@ -47,7 +47,7 @@ internal static class Program
             Check(main.VerifyStabilityCheckBox.IsChecked == true, "broad RAM check retained");
             Check(main.StartTuneUpButton.IsEnabled && main.CancelTuneUpButton.Visibility == Visibility.Collapsed, "startup idle and no automatic tools");
             Check(main.WindowStyle != WindowStyle.None && !main.AllowsTransparency, "standard Windows window behavior");
-            Check(main.StartTuneUpButton.Content.ToString()!.Replace("_", "") == "Run selected tools", "clear primary action");
+            Check(main.StartTuneUpButton.Content.ToString()!.Replace("_", "") == "Verify System", "clear primary action");
 
             main.VerifyStabilityScanLogListView.Items.Add(new ListViewItem { Content = "fixture output" });
             main.VerifyStabilityLabel.Content = UiText.Get("Passed");
@@ -58,6 +58,80 @@ internal static class Program
             Render(main, 720, 440, 1.5, null);
             Render(main, 720, 440, 2.0, null);
 
+
+            checks += VerificationSummaryChecks.Run();
+            foreach (var area in Enum.GetValues<VerificationArea>())
+            {
+                Check(!UiText.Get("Stage" + area + "Title").StartsWith('['), $"stage title: {area}");
+                Check(!UiText.Get("Stage" + area + "Detail").StartsWith('['), $"stage detail: {area}");
+            }
+            main.ResetRowsForSession();
+            Check(main.GuideHeadline.Text == UiText.Get("GuideReadyTitle") && main.SessionProgress.Value == 0,
+                "new verification resets guidance and task progress");
+            main.OnCheckStarted(main.VerifyStabilityCheckBox);
+            Check(main.GuideHeadline.Text == UiText.Get("StageMemoryTitle"), "active memory guidance");
+            Check(System.Windows.Automation.AutomationProperties.GetLiveSetting(main.GuideHeadline) ==
+                System.Windows.Automation.AutomationLiveSetting.Polite, "guidance is a polite live region");
+            string spokenStage = System.Windows.Automation.AutomationProperties.GetName(main.GuideHeadline);
+            Check(spokenStage.Contains(main.GuideHeadline.Text) && spokenStage.Contains(main.GuideDetail.Text),
+                "accessible guidance contains the stage and explanation");
+            main.OnCheckProgress(main.VerifyStabilityCheckBox, 50);
+            Check(System.Windows.Automation.AutomationProperties.GetName(main.GuideHeadline) == spokenStage,
+                "progress ticks leave the spoken guidance unchanged");
+            Check(Math.Abs(main.SessionProgress.Value - 100.0 / 12) < .001, "overall progress reflects selected task fraction");
+            main.OnCheckProgress(main.VerifyDrivesCheckBox, 100);
+            Check(Math.Abs(main.SessionProgress.Value - 100.0 / 12) < .001, "inactive callbacks cannot advance overall progress");
+            main.OnCheckRepairing(main.VerifyDrivesCheckBox);
+            Check(main.GuideHeadline.Text == UiText.Get("StageMemoryTitle"), "inactive repair cannot replace guidance");
+            main.OnCheckFinished(main.VerifyStabilityCheckBox, VerifierBase.VerifierResult.Scanned);
+            main.FinishVerificationFeedback(false, false);
+            Check(main.GuideHeadline.Text == VerificationText.Get("IncompleteHeadline"), "one completed check cannot imply completed verification");
+
+            main.ResetRowsForSession();
+            main.OnCheckStarted(main.VerifyStabilityCheckBox);
+            main.OnCheckFinished(main.VerifyStabilityCheckBox, VerifierBase.VerifierResult.IssuesFound);
+            main.FinishVerificationFeedback(true, false);
+            Check(main.GuideEyebrow.Text == UiText.Get("GuideAttentionBadge") &&
+                main.GuideDetailsButton.Visibility == Visibility.Visible, "findings survive cancellation with a details action");
+            main.GuideDetailsButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            Check(main.DashboardTabs.SelectedItem == main.VerifyStabilityLogHeader, "result guidance opens the relevant log");
+            main.DashboardTabs.SelectedIndex = 0;
+            main.ResetRowsForSession();
+            Check(main.GuideDetailsButton.Visibility == Visibility.Collapsed &&
+                main.SessionCount.Text == UiText.Format("SessionCountFormat", 0, 6), "rerun clears previous guidance and counts");
+
+            main.OnCheckStarted(main.VerifyDrivesCheckBox);
+            main.OnCheckRepairing(main.VerifyDrivesCheckBox);
+            Check(main.GuideHeadline.Text == UiText.Get("GuideRepairTitle"), "repair replaces checking guidance");
+            Check(System.Windows.Automation.AutomationProperties.GetName(main.GuideHeadline).Contains(UiText.Get("GuideRepairTitle")),
+                "repair guidance updates its accessible name");
+            main.VerifyDrivesRepairLogHeader.IsSelected = true;
+            main.GuideDetailsButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            Check(main.DashboardTabs.SelectedItem == main.VerifyDrivesLogHeader && main.VerifyDrivesRepairLogHeader.IsSelected,
+                "details keeps the selected repair log open");
+            main.DashboardTabs.SelectedIndex = 0;
+            main.ResetRowsForSession();
+            main.PlayVerificationEffect(true);
+            Check(main.IsVerificationEffectActive && main.VerificationEffectLayer.Children.Count == 11, "bounded native pixel effect starts");
+            Check(!main.VerificationEffectLayer.IsHitTestVisible && !main.VerificationEffectLayer.Focusable, "effect cannot intercept input");
+            main.PlayVerificationEffect(true);
+            Check(main.VerificationEffectLayer.Children.Count == 11, "repeated effect replaces prior particles");
+            PumpDispatcher(TimeSpan.FromMilliseconds(50));
+            main.SeekVerificationEffect(TimeSpan.FromMilliseconds(150));
+            Check(main.IsVerificationEffectActive, "effect can render a sampled frame");
+            var firstPixel = (System.Windows.Shapes.Rectangle)main.VerificationEffectLayer.Children[1];
+            Check(((TranslateTransform)firstPixel.RenderTransform).X < -10 && firstPixel.Opacity > .5,
+                "sampled pixel has moved outward and become visible");
+            main.SeekVerificationEffect(TimeSpan.FromMilliseconds(650));
+            Check(!main.IsVerificationEffectActive && main.VerificationEffectLayer.Children.Count == 0, "completed effect clears its visuals");
+            main.PlayVerificationEffect(true);
+            main.PlayVerificationEffect(false);
+            Check(!main.IsVerificationEffectActive && main.VerificationEffectLayer.Children.Count == 0, "disabled animation leaves no effect");
+
+            main.PlayVerificationEffect(true);
+            PumpDispatcher(TimeSpan.FromMilliseconds(950));
+            Check(!main.IsVerificationEffectActive && main.VerificationEffectLayer.Children.Count == 0,
+                "real animation completion removes clocks and particles");
             main.OptimizeDrivesCheckBox.IsChecked = false;
             main.ResetRowsForSession();
             Check(Equals(main.VerifyStabilityLabel.Content, UiText.Get("Queued")) && main.VerifyStabilityScanLogListView.Items.Count == 0, "new session clears stale green results and logs");
@@ -69,9 +143,11 @@ internal static class Program
             using var cancellation = new CancellationTokenSource();
             Set(main, "runningTask", pending.Task);
             Set(main, "cancellation", cancellation);
+            main.PlayVerificationEffect(true);
             var closing = new CancelEventArgs();
             typeof(MainWindow).GetMethod("Window_Closing", BindingFlags.Instance | BindingFlags.NonPublic)!
                 .Invoke(main, [main, closing]);
+            Check(!main.IsVerificationEffectActive, "close request stops decorative effects");
             Check(closing.Cancel && cancellation.IsCancellationRequested, "closing requests cooperative stop and keeps window alive");
             Check(main.SessionStatus.Text.Contains("Cancellation requested"), "pending cancellation visible");
             Set(main, "runningTask", Task.CompletedTask);
@@ -112,6 +188,14 @@ internal static class Program
         finally { app.Shutdown(); }
     }
 
+    private static void PumpDispatcher(TimeSpan duration)
+    {
+        var frame = new System.Windows.Threading.DispatcherFrame();
+        var timer = new System.Windows.Threading.DispatcherTimer { Interval = duration };
+        timer.Tick += (_, _) => { timer.Stop(); frame.Continue = false; };
+        timer.Start();
+        System.Windows.Threading.Dispatcher.PushFrame(frame);
+    }
     private static void Set(object target, string field, object? value) =>
         target.GetType().GetField(field, BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(target, value);
 
@@ -151,7 +235,7 @@ internal static class Program
             if (!path.EndsWith(".cs") && !path.EndsWith(".xaml")) continue;
             var source = File.ReadAllText(path);
             foreach (Match m in Regex.Matches(source, "loc:Loc ([A-Za-z0-9]+)")) keys.Add(m.Groups[1].Value);
-            foreach (Match m in Regex.Matches(source, "UiText\\.(?:Get|Format)\\(\\\"([A-Za-z0-9]+)\\\"")) keys.Add(m.Groups[1].Value);
+            foreach (Match m in Regex.Matches(source, "UiText\\.(?:Get|Format)\\(\\\"([A-Za-z0-9]+)\\\"\\s*[,)]")) keys.Add(m.Groups[1].Value);
         }
         foreach (var key in keys) Check(resources.GetString(key, CultureInfo.InvariantCulture) is not null, $"resource exists: {key}");
     }

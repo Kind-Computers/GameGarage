@@ -224,7 +224,7 @@ namespace GameGarage.Interface
             public ListView? RepairLogListView = RepairLogListView;
         }
 
-        private static void RunTask<T>(RunTaskInfo TaskInfo,
+        private void RunTask<T>(RunTaskInfo TaskInfo,
                                 ref T? ToolInstance,
                                 ScopedTaskProgress TaskbarProgress,
                                 CancellationToken CancelToken) where T : VerifierBase
@@ -238,6 +238,7 @@ namespace GameGarage.Interface
                 Application.Current?.Dispatcher.Invoke(() =>
                 {
                     // TODO: Use data binding instead!!!
+                    AppWindow.OnCheckStarted(TaskInfo.CheckBox);
                     TaskInfo.StatusLabel.Content = UiText.Get("Running");
                     TaskInfo.ScanLogListView.Items.Clear();
                     TaskInfo.RepairLogListView?.Items.Clear();
@@ -245,10 +246,10 @@ namespace GameGarage.Interface
                     TaskInfo.ProgressBar.Value = 0;
 
                     // TODO: Use styles instead!!!
-                    (TaskInfo.CheckBox.Parent as Border)!.Background = BlueBrush;
-                    (TaskInfo.StatusLabel.Parent as Border)!.Background = BlueBrush;
-                    (TaskInfo.ProgressBar.Parent as Border)!.Background = BlueBrush;
-                    TaskInfo.LogHeader.Background = BlueBrush;
+                    (TaskInfo.CheckBox.Parent as Border)!.Background = AppWindow.PresentationBrush("ActiveBrush");
+                    (TaskInfo.StatusLabel.Parent as Border)!.Background = AppWindow.PresentationBrush("ActiveBrush");
+                    (TaskInfo.ProgressBar.Parent as Border)!.Background = AppWindow.PresentationBrush("ActiveBrush");
+                    TaskInfo.LogHeader.Background = AppWindow.PresentationBrush("ActiveBrush");
                 });
 
                 bool HasStartedRepair = false;
@@ -278,6 +279,7 @@ namespace GameGarage.Interface
 
                                 // Set status
                                 TaskInfo.StatusLabel.Content = UiText.Get("Repairing");
+                                AppWindow.OnCheckRepairing(TaskInfo.CheckBox);
                             }
 
                             // Set current tab header to bold
@@ -298,6 +300,7 @@ namespace GameGarage.Interface
                             if (Volatile.Read(ref toolActive) == 0) return;
                             TaskInfo.ProgressBar.Value = Math.Clamp(ProgressPercent, 0, 100);
                             TaskbarProgress.SetTaskProgress(ProgressPercent);
+                            AppWindow.OnCheckProgress(TaskInfo.CheckBox, ProgressPercent);
                         });
                     };
 
@@ -329,32 +332,17 @@ namespace GameGarage.Interface
                     TaskInfo.StatusLabel.Content = UiText.Get(VerifyResult switch { VerifierBase.VerifierResult.Scanned => "Passed", VerifierBase.VerifierResult.Repair_Scheduled_On_Reboot => "Scheduled", VerifierBase.VerifierResult.Not_Repaired => "NotRepaired", _ => VerifyResult.ToString() });
 
                     // TODO: Use styles instead!!!
-                    var ResultColor = GetColorForResult(VerifyResult);
+                    var ResultColor = AppWindow.ResultBrush(VerifyResult);
                     (TaskInfo.CheckBox.Parent as Border)!.Background = ResultColor;
                     (TaskInfo.StatusLabel.Parent as Border)!.Background = ResultColor;
                     (TaskInfo.ProgressBar.Parent as Border)!.Background = ResultColor;
                     TaskInfo.LogHeader.Background = ResultColor;
 
                     // Update the total progress in the taskbar
+                    AppWindow.OnCheckFinished(TaskInfo.CheckBox, VerifyResult);
                     TaskbarProgress.TaskCompleted();
                 });
             }
-        }
-
-        // TODO: Use styles instead!!!
-        private static System.Windows.Media.SolidColorBrush GetColorForResult(VerifierBase.VerifierResult Result)
-        {
-            var ColorBrush = (Result switch
-                {
-                    VerifierBase.VerifierResult.Scanned => GreenBrush,
-                    VerifierBase.VerifierResult.Cancelled => BlueBrush,
-                    VerifierBase.VerifierResult.Repaired => GreenBrush,
-                    VerifierBase.VerifierResult.Repair_Scheduled_On_Reboot => YellowBrush,
-                    VerifierBase.VerifierResult.Not_Repaired => YellowBrush,
-                    VerifierBase.VerifierResult.Error => RedBrush, VerifierBase.VerifierResult.IssuesFound => RedBrush, _ => YellowBrush
-                });
-
-            return ColorBrush;
         }
 
         // Verifier instances (volatile assures aquire-release semantics)
@@ -368,12 +356,5 @@ namespace GameGarage.Interface
         private readonly MainWindow AppWindow;
         private VerifierTaskList TaskList;
 
-        // TODO: Use styles instead!!!
-        // Colors
-        static readonly System.Windows.Media.SolidColorBrush GreenBrush = FrozenBrush(0xDE, 0xFF, 0xDC);
-        static readonly System.Windows.Media.SolidColorBrush BlueBrush = FrozenBrush(0xD6, 0xE2, 0xFF);
-        static readonly System.Windows.Media.SolidColorBrush YellowBrush = FrozenBrush(0xFF, 0xF4, 0xCE);
-        static readonly System.Windows.Media.SolidColorBrush RedBrush = FrozenBrush(0xFF, 0xDD, 0xDD);
-        private static System.Windows.Media.SolidColorBrush FrozenBrush(byte r, byte g, byte b) { var brush = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(r,g,b)); brush.Freeze(); return brush; }
     }
 }

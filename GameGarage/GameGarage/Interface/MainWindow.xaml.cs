@@ -21,6 +21,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        InitializePresentation();
         timer.Tick += (_, _) => ElapsedStatus.Text = UiText.Format("Elapsed", elapsed.Elapsed);
         MaxHeight = SystemParameters.WorkArea.Height;
         MaxWidth = SystemParameters.WorkArea.Width;
@@ -60,6 +61,7 @@ public partial class MainWindow : Window
             MessageBox.Show(this, UiText.Get("NoTools"), UiText.Get("NoToolsTitle"));
             return;
         }
+        bool sessionFailed = false;
         ResetRowsForSession();
         SetRunning(true);
         elapsed.Restart();
@@ -76,6 +78,7 @@ public partial class MainWindow : Window
         catch (OperationCanceledException) { SessionStatus.Text = UiText.Get("SessionCancelled"); }
         catch (Exception ex)
         {
+            sessionFailed = true;
             SessionStatus.Text = UiText.Format("SessionError", ex.Message);
         }
         finally
@@ -84,6 +87,7 @@ public partial class MainWindow : Window
             elapsed.Stop();
             ElapsedStatus.Text = UiText.Format("Elapsed", elapsed.Elapsed);
             FinishQueuedRows(cancellation?.IsCancellationRequested == true);
+            FinishVerificationFeedback(cancellation?.IsCancellationRequested == true, sessionFailed);
             SetRunning(false);
             cancellation?.Dispose();
             cancellation = null;
@@ -111,12 +115,13 @@ public partial class MainWindow : Window
             row.Progress.Value = 0;
             row.Log.Items.Clear();
             row.Repairs?.Items.Clear();
-            var background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0xEA, 0xF0, 0xF5));
+            var background = PresentationBrush("TileBrush");
             ((Border)row.Selection.Parent).Background = background;
             ((Border)row.Status.Parent).Background = background;
             ((Border)row.Progress.Parent).Background = background;
             row.Details.Background = background;
         }
+        ResetVerificationFeedback();
     }
     internal void FinishQueuedRows(bool cancelled)
     {
@@ -132,6 +137,7 @@ public partial class MainWindow : Window
             element.IsEnabled = !running;
         CancelTuneUpButton.Visibility = running ? Visibility.Visible : Visibility.Collapsed;
         CancelTuneUpButton.IsEnabled = running;
+        SetPresentationRunning(running);
     }
 
     private void RequestCancellation()
@@ -139,6 +145,7 @@ public partial class MainWindow : Window
         cancellation?.Cancel();
         CancelTuneUpButton.IsEnabled = false;
         SessionStatus.Text = UiText.Get("SessionCancelling");
+        ShowCancellationFeedback();
     }
     private void CancelTuneUpButton_Click(object sender, RoutedEventArgs e) => RequestCancellation();
     private void Window_Closing(object? sender, System.ComponentModel.CancelEventArgs e)

@@ -13,10 +13,10 @@
     <value>Kind Computers</value>
   </data>
   <data name="Tagline" xml:space="preserve">
-    <value>Practical checks and maintenance for your PC.</value>
+    <value>Your checklist. Keep what you need, skip what you don&apos;t.</value>
   </data>
   <data name="RunSelected" xml:space="preserve">
-    <value>_Run selected tools</value>
+    <value>_Verify System</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>_Cancel</value>
@@ -25,7 +25,7 @@
     <value>_About</value>
   </data>
   <data name="Overview" xml:space="preserve">
-    <value>Tools</value>
+    <value>Checklist</value>
   </data>
   <data name="Tool" xml:space="preserve">
     <value>Tool</value>
@@ -73,19 +73,19 @@
     <value>Problems found</value>
   </data>
   <data name="Stability" xml:space="preserve">
-    <value>RAM and CPU data-path check</value>
+    <value>Memory and CPU</value>
   </data>
   <data name="Drives" xml:space="preserve">
-    <value>Drive file-system check</value>
+    <value>Drive file system</value>
   </data>
   <data name="WindowsImage" xml:space="preserve">
-    <value>Windows component-store check</value>
+    <value>Windows image</value>
   </data>
   <data name="WindowsFiles" xml:space="preserve">
-    <value>Windows protected-file check</value>
+    <value>Protected Windows files</value>
   </data>
   <data name="Drivers" xml:space="preserve">
-    <value>Driver signature check</value>
+    <value>Driver signatures</value>
   </data>
   <data name="Optimize" xml:space="preserve">
     <value>Optimize drives (maintenance)</value>
@@ -124,13 +124,13 @@
     <value>Windows language not supported</value>
   </data>
   <data name="SessionReady" xml:space="preserve">
-    <value>Ready — choose tools, then run.</value>
+    <value>Ready. Pick your checks, then Verify System.</value>
   </data>
   <data name="SessionRunning" xml:space="preserve">
-    <value>Running selected tools</value>
+    <value>Verification in progress</value>
   </data>
   <data name="SessionComplete" xml:space="preserve">
-    <value>Finished — review each tool’s result.</value>
+    <value>Verification finished. Review your results.</value>
   </data>
   <data name="SessionCancelling" xml:space="preserve">
     <value>Cancellation requested — waiting for the active tool to exit.</value>
@@ -294,4 +294,35 @@
   <data name="ImageExitError" xml:space="preserve">
     <value>Windows image information could not be read (DISM exit code {0}).</value>
   </data>
+  <data name="VerifyActionName" xml:space="preserve"><value>Verify System</value></data>
+  <data name="VerifyingAction" xml:space="preserve"><value>Verifying...</value></data>
+  <data name="SessionProgressName" xml:space="preserve"><value>Progress through selected checks</value></data>
+  <data name="SessionCountFormat" xml:space="preserve"><value>{0}/{1} DONE</value></data>
+  <data name="GuideReadyBadge" xml:space="preserve"><value>READY, PLAYER</value></data>
+  <data name="GuideReadyTitle" xml:space="preserve"><value>Let&apos;s check your setup.</value></data>
+  <data name="GuideReadyDetail" xml:space="preserve"><value>Memory, Windows, drives. One button, useful answers.</value></data>
+  <data name="GuideViewDetails" xml:space="preserve"><value>_View details</value></data>
+  <data name="GuideRunningBadge" xml:space="preserve"><value>VERIFYING</value></data>
+  <data name="GuideStartingTitle" xml:space="preserve"><value>Powering up the checks.</value></data>
+  <data name="GuideStartingDetail" xml:space="preserve"><value>We&apos;ll show what&apos;s happening and what needs attention.</value></data>
+  <data name="GuideStepFormat" xml:space="preserve"><value>STEP {0} / {1}</value></data>
+  <data name="GuideAttentionBadge" xml:space="preserve"><value>NEEDS ATTENTION</value></data>
+  <data name="GuideResultsBadge" xml:space="preserve"><value>YOUR RESULTS</value></data>
+  <data name="GuideStoppingBadge" xml:space="preserve"><value>STOPPING</value></data>
+  <data name="GuideStoppingTitle" xml:space="preserve"><value>Waiting for the current tool.</value></data>
+  <data name="GuideStoppingDetail" xml:space="preserve"><value>Later checks will stay stopped. Completed results are kept.</value></data>
+  <data name="StageMemoryTitle" xml:space="preserve"><value>Putting memory through its paces.</value></data>
+  <data name="StageMemoryDetail" xml:space="preserve"><value>Writing and reading patterns to check the CPU and memory data path.</value></data>
+  <data name="StageDrivesTitle" xml:space="preserve"><value>Checking your drive file systems.</value></data>
+  <data name="StageDrivesDetail" xml:space="preserve"><value>Looking for file-system problems. Any repairs need your confirmation.</value></data>
+  <data name="StageWindowsImageTitle" xml:space="preserve"><value>Checking Windows&apos; repair files.</value></data>
+  <data name="StageWindowsImageDetail" xml:space="preserve"><value>Inspecting the component store that Windows relies on for repairs.</value></data>
+  <data name="StageWindowsFilesTitle" xml:space="preserve"><value>Checking protected Windows files.</value></data>
+  <data name="StageWindowsFilesDetail" xml:space="preserve"><value>Looking for damaged or changed system files with Windows&apos; own verifier.</value></data>
+  <data name="StageDriversTitle" xml:space="preserve"><value>Reviewing driver signatures.</value></data>
+  <data name="StageDriversDetail" xml:space="preserve"><value>Checking the signature information Windows reports for installed drivers.</value></data>
+  <data name="StageOptimizationTitle" xml:space="preserve"><value>Giving your drives a tune-up.</value></data>
+  <data name="StageOptimizationDetail" xml:space="preserve"><value>Windows chooses the appropriate optimization for each drive type.</value></data>
+  <data name="GuideRepairTitle" xml:space="preserve"><value>Working on the repairs.</value></data>
+  <data name="GuideRepairDetail" xml:space="preserve"><value>Follow the current repair in its log. Remaining checks continue when it finishes.</value></data>
 </root>

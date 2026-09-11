@@ -8,6 +8,10 @@ main window.
   memory sizes, display scales, and keyboard-only workflows.
 - Extend RAM fault-injection coverage and collect comparable hardware
   benchmarks before adding costlier memory patterns.
+- Make verification easy to repeat after an overclocking or memory configuration
+  change. Add saved runs with user-supplied configuration notes, scan coverage,
+  elapsed time, and outcome comparisons; keep quick checks and longer stability
+  testing clearly described.
 - Add structured, exportable diagnostic reports and improve accessibility.
 - Add translated resources and localized Windows command parsing together,
   with fixtures for each supported language.
